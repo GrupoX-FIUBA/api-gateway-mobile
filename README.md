@@ -1,13 +1,6 @@
-# Template repository for Fastify microservices
+# Mobile API Gateway
 
-This is a template to use as a starting point for Fastify (Node.js) microservice repositories. Once configured, it will run the tests on every pull request to `main`, and will automatically deploy to corresponding Heroku app when a push to `main` occurs.
-
-## To Do after fork/create-from-template
-
-- Go to the repository settings, _Actions secrets_ and create a new _repository secret_ with name `HEROKU_APP_NAME` and the name of the Heroku app in the _value_ field.
-- Open `package.json` and modify the name and description of the project. The name must be lowercase and can't contain special chars except `-` and `_`.
-
-There's a very simple example of a Fastify app with tests.
+API used by the mobile client to interact with the backend.
 
 ## Local development
 
