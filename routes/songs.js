@@ -1,14 +1,14 @@
 const controller = require("../controllers/songs.js");
 
 const song = {
-    type: 'object',
-    required: ['id', 'artist_id'],
-    properties : {
-		id: {type :'number'},
-        title: {type :'string'},
-        artist_id: {type :'number'},
-        album_id: {type :'number'}
-    }
+	type: 'object',
+	required: ['id', 'artist_id'],
+	properties: {
+		id: { type: 'number' },
+		title: { type: 'string' },
+		artist_id: { type: 'number' },
+		album_id: { type: 'number' }
+	}
 }
 
 const routes = [
@@ -21,8 +21,9 @@ const routes = [
 			params: {
 				type: 'object',
 				properties: {
-					song_id: {type: 'string'},
-				}},
+					song_id: { type: 'string' },
+				}
+			},
 		}
 	}, {
 		method: "POST",
@@ -41,8 +42,9 @@ const routes = [
 			params: {
 				type: 'object',
 				properties: {
-					song_id: {type: 'string'},
-				}},
+					song_id: { type: 'string' },
+				}
+			},
 		}
 	}, {
 		method: "PATCH",
@@ -53,8 +55,9 @@ const routes = [
 			params: {
 				type: 'object',
 				properties: {
-					song_id: {type: 'string'},
-				}},
+					song_id: { type: 'string' },
+				}
+			},
 		}
 	}
 ]
