@@ -17,7 +17,9 @@ function build(opts = {}) {
 
 	// Here are setted the routes
 	const demoRoutes = require("./routes/demo");
+	const songRoutes = require("./routes/songs");
 	demoRoutes.forEach((route) => app.route(route));
+	songRoutes.forEach((route) => app.route(route));
 	
 	return app;
 }
