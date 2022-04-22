@@ -2,9 +2,10 @@ const controller = require("../controllers/songs.js");
 
 const song = {
 	type: 'object',
-	required: ['id', 'artist_id'],
+	required: ['id', 'uri', 'title', 'artist_id'],
 	properties: {
 		id: { type: 'number' },
+		uri: { type: 'string'},
 		title: { type: 'string' },
 		artist_id: { type: 'number' },
 		album_id: { type: 'number' }
