@@ -25,6 +25,8 @@ function build(opts = {}) {
 	albumRoutes.forEach((route) => app.route(route));
 	playlistRoutes.forEach((route) => app.route(route));
 	
+	const schemas = require("./schemas/schemas").schemas;
+	schemas.forEach((schema) => app.addSchema(schema));
 	return app;
 }
 
