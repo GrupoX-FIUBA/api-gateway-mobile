@@ -19,9 +19,11 @@ function build(opts = {}) {
 	const demoRoutes = require("./routes/demo");
 	const songRoutes = require("./routes/songs");
 	const albumRoutes = require("./routes/albums");
+	const playlistRoutes = require("./routes/playlists");
 	demoRoutes.forEach((route) => app.route(route));
 	songRoutes.forEach((route) => app.route(route));
 	albumRoutes.forEach((route) => app.route(route));
+	playlistRoutes.forEach((route) => app.route(route));
 	
 	return app;
 }

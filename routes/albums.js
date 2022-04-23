@@ -4,7 +4,7 @@ const song = require("../routes/songs").song
 
 const album = {
 	type: 'object',
-	required: ['id', 'artist_id'],
+	required: ['id', 'title', 'artist_id'],
 	properties: {
 		id: { type: 'number' },
 		title: { type: 'string' },
