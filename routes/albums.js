@@ -10,7 +10,7 @@ const album = {
 		title: { type: 'string' },
 		artist_id: { type: 'number' },
 		songs: {
-			type : 'array',
+			type: 'array',
 			items: song, // Arreglar que no aparece en swagger
 		}
 	}

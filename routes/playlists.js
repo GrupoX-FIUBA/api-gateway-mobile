@@ -8,9 +8,9 @@ const playlist = {
 	properties: {
 		id: { type: 'number' },
 		title: { type: 'string' },
-        owner_id: { type: 'number' },
+		owner_id: { type: 'number' },
 		songs: {
-			type : 'array',
+			type: 'array',
 			items: song, // Arreglar que no aparece en swagger
 		}
 	}
