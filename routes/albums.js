@@ -1,20 +1,5 @@
 const controller = require("../controllers/albums.js");
-
-const song = require("../routes/songs").song
-
-const album = {
-	type: 'object',
-	required: ['id', 'title', 'artist_id'],
-	properties: {
-		id: { type: 'number' },
-		title: { type: 'string' },
-		artist_id: { type: 'number' },
-		songs: {
-			type: 'array',
-			items: song, // Arreglar que no aparece en swagger
-		}
-	}
-}
+const albumSchema = require('../schemas/schemas').albumSchema
 
 const routes = [
 	{
@@ -36,7 +21,7 @@ const routes = [
 		handler: controller.createAlbum,
 		schema: {
 			description: "Create a new album",
-			body: album,
+			body: albumSchema,
 		}
 	}, {
 		method: "DELETE",

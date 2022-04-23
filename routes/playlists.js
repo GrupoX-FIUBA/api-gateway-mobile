@@ -1,20 +1,5 @@
 const controller = require("../controllers/playlists.js");
-
-const song = require("../routes/songs").song
-
-const playlist = {
-	type: 'object',
-	required: ['id', 'title', 'owner_id'],
-	properties: {
-		id: { type: 'number' },
-		title: { type: 'string' },
-		owner_id: { type: 'number' },
-		songs: {
-			type: 'array',
-			items: song, // Arreglar que no aparece en swagger
-		}
-	}
-}
+const playlistSchema = require("../schemas/schemas").playlistSchema
 
 const routes = [
 	{
@@ -36,7 +21,7 @@ const routes = [
 		handler: controller.createPlaylist,
 		schema: {
 			description: "Create a new playlist",
-			body: playlist,
+			body: playlistSchema,
 		}
 	}, {
 		method: "DELETE",

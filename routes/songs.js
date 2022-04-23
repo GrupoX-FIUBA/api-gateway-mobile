@@ -1,16 +1,5 @@
 const controller = require("../controllers/songs.js");
-
-const song = {
-	type: 'object',
-	required: ['id', 'uri', 'title', 'artist_id'],
-	properties: {
-		id: { type: 'number' },
-		uri: { type: 'string'},
-		title: { type: 'string' },
-		artist_id: { type: 'number' },
-		album_id: { type: 'number' }
-	}
-}
+const songSchema = require('../schemas/schemas').songSchema
 
 const routes = [
 	{
@@ -32,7 +21,7 @@ const routes = [
 		handler: controller.createSong,
 		schema: {
 			description: "Create a new song",
-			body: song,
+			body: songSchema,
 		}
 	}, {
 		method: "DELETE",
