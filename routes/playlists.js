@@ -1,5 +1,5 @@
 const controller = require("../controllers/playlists.js");
-const playlistSchema = require("../schemas/schemas").playlistSchema
+const playlistSchema = require("../schemas/schemas").playlistSchema;
 
 const routes = [
 	{
@@ -9,9 +9,9 @@ const routes = [
 		schema: {
 			description: "Get a playlist by ID",
 			params: {
-				type: 'object',
+				type: "object",
 				properties: {
-					playlist_id: { type: 'string' },
+					playlist_id: { type: "string" },
 				}
 			},
 		}
@@ -30,9 +30,9 @@ const routes = [
 		schema: {
 			description: "Delete a playlist by ID",
 			params: {
-				type: 'object',
+				type: "object",
 				properties: {
-					playlist_id: { type: 'string' },
+					playlist_id: { type: "string" },
 				}
 			},
 		}
@@ -43,13 +43,13 @@ const routes = [
 		schema: {
 			description: "Edit a playlist by ID",
 			params: {
-				type: 'object',
+				type: "object",
 				properties: {
-					playlist_id: { type: 'string' },
+					playlist_id: { type: "string" },
 				}
 			},
 		}
 	}
-]
+];
 
 module.exports = routes;

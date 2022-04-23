@@ -1,5 +1,5 @@
 const controller = require("../controllers/albums.js");
-const albumSchema = require('../schemas/schemas').albumSchema
+const albumSchema = require("../schemas/schemas").albumSchema;
 
 const routes = [
 	{
@@ -9,9 +9,9 @@ const routes = [
 		schema: {
 			description: "Get an album by ID",
 			params: {
-				type: 'object',
+				type: "object",
 				properties: {
-					album_id: { type: 'string' },
+					album_id: { type: "string" },
 				}
 			},
 		}
@@ -30,9 +30,9 @@ const routes = [
 		schema: {
 			description: "Delete an album by ID",
 			params: {
-				type: 'object',
+				type: "object",
 				properties: {
-					album_id: { type: 'string' },
+					album_id: { type: "string" },
 				}
 			},
 		}
@@ -43,13 +43,13 @@ const routes = [
 		schema: {
 			description: "Edit an album by ID",
 			params: {
-				type: 'object',
+				type: "object",
 				properties: {
-					album_id: { type: 'string' },
+					album_id: { type: "string" },
 				}
 			},
 		}
 	}
-]
+];
 
 module.exports = routes;

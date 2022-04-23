@@ -1,5 +1,5 @@
 const controller = require("../controllers/songs.js");
-const songSchema = require('../schemas/schemas').songSchema
+const songSchema = require("../schemas/schemas").songSchema;
 
 const routes = [
 	{
@@ -9,9 +9,9 @@ const routes = [
 		schema: {
 			description: "Get a song by ID",
 			params: {
-				type: 'object',
+				type: "object",
 				properties: {
-					song_id: { type: 'string' },
+					song_id: { type: "string" },
 				}
 			},
 		}
@@ -30,9 +30,9 @@ const routes = [
 		schema: {
 			description: "Delete a song by ID",
 			params: {
-				type: 'object',
+				type: "object",
 				properties: {
-					song_id: { type: 'string' },
+					song_id: { type: "string" },
 				}
 			},
 		}
@@ -43,13 +43,13 @@ const routes = [
 		schema: {
 			description: "Edit a song by ID",
 			params: {
-				type: 'object',
+				type: "object",
 				properties: {
-					song_id: { type: 'string' },
+					song_id: { type: "string" },
 				}
 			},
 		}
 	}
-]
+];
 
 module.exports = routes;
