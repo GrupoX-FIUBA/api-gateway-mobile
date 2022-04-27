@@ -15,7 +15,7 @@ const songEditSchema = S.object()
 	.description("Schema used for song edition")
 	.prop("title", S.string())
 	.prop("album_id", S.number())
-	.prop("blocked", S.boolean())
+	.prop("blocked", S.boolean());
 
 const albumSchema = S.object()
 	.id("albumSchema")
