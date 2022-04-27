@@ -21,10 +21,14 @@ const albumSchema = S.object()
 	.id("albumSchema")
 	.title("Album")
 	.description("Schema used for albums")
-	.prop("id", S.number().required())
 	.prop("title", S.string().required())
-	.prop("artist_id", S.number().required())
-	.prop("songs", S.array(songSchema));
+	.prop("artist_id", S.number().required());
+
+const albumEditSchema = S.object()
+	.id("albumEditSchema")
+	.title("AlbumEdit")
+	.description("Schema used for album edition")
+	.prop("title", S.string().required());
 
 const playlistSchema = S.object()
 	.id("playlistSchema")
@@ -36,7 +40,7 @@ const playlistSchema = S.object()
 	.prop("songs", S.array(songSchema));
 
 // Para cargarlos rapido en swagger
-const schemas = [songSchema, albumSchema, playlistSchema, songEditSchema];
+const schemas = [songSchema, albumSchema, playlistSchema, songEditSchema, albumEditSchema];
 module.exports.schemas = schemas;
 
 // Los agrego por separado para que aparezcan en los request body en swagger
@@ -44,6 +48,7 @@ module.exports.songSchema = songSchema;
 module.exports.albumSchema = albumSchema;
 module.exports.playlistSchema = playlistSchema;
 module.exports.songEditSchema = songEditSchema;
+module.exports.albumEditSchema = albumEditSchema;
 
 
 
