@@ -1,8 +1,15 @@
 const controller = require("../controllers/songs.js");
 const songSchema = require("../schemas/schemas").songSchema;
-
+const songEditSchema = require("../schemas/schemas").songEditSchema;
 const routes = [
 	{
+		method: "GET",
+		url: "/songs",
+		handler: controller.getAllSongs,
+		schema: {
+			description: "Get all songs",
+		}
+	}, {
 		method: "GET",
 		url: "/songs/:song_id",
 		handler: controller.getSong,
@@ -42,6 +49,7 @@ const routes = [
 		handler: controller.editSong,
 		schema: {
 			description: "Edit a song by ID",
+			body: songEditSchema,
 			params: {
 				type: "object",
 				properties: {
