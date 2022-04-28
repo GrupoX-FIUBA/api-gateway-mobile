@@ -28,8 +28,16 @@ function build(opts = {}) {
 	serverRoutes.forEach((route) => app.route(route));
 	usersRoutes.forEach((route) => app.route(route));
 	
-	const schemas = require("./schemas/schemas").schemas;
-	schemas.forEach((schema) => app.addSchema(schema));
+	const songSchemas = require("./schemas/songs").schemas;
+	const albumSchemas = require("./schemas/albums").schemas;
+	const playlistSchemas = require("./schemas/playlists").schemas;
+	const userSchemas = require("./schemas/users").schemas;
+
+	songSchemas.forEach((schema) => app.addSchema(schema));	
+	albumSchemas.forEach((schema) => app.addSchema(schema));
+	playlistSchemas.forEach((schema) => app.addSchema(schema));
+	userSchemas.forEach((schema) => app.addSchema(schema));
+
 	return app;
 }
 
