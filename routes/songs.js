@@ -8,6 +8,7 @@ const routes = [
 		handler: controller.getAllSongs,
 		schema: {
 			description: "Get all songs",
+			tags: ["Song"],
 		}
 	}, {
 		method: "GET",
@@ -15,6 +16,7 @@ const routes = [
 		handler: controller.getSong,
 		schema: {
 			description: "Get a song by ID",
+			tags: ["Song"],
 			params: {
 				type: "object",
 				properties: {
@@ -28,6 +30,7 @@ const routes = [
 		handler: controller.createSong,
 		schema: {
 			description: "Create a new song",
+			tags: ["Song"],
 			body: songSchema,
 		}
 	}, {
@@ -36,6 +39,7 @@ const routes = [
 		handler: controller.deleteSong,
 		schema: {
 			description: "Delete a song by ID",
+			tags: ["Song"],
 			params: {
 				type: "object",
 				properties: {
@@ -49,6 +53,7 @@ const routes = [
 		handler: controller.editSong,
 		schema: {
 			description: "Edit a song by ID",
+			tags: ["Song"],
 			body: songEditSchema,
 			params: {
 				type: "object",

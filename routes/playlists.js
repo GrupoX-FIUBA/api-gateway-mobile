@@ -8,7 +8,8 @@ const routes = [
 		url: "/playlists",
 		handler: controller.getAllPlaylists,
 		schema: {
-			description: "Get all playlists"
+			description: "Get all playlists",
+			tags: ["Playlist"],
 		}
 	}, {
 		method: "GET",
@@ -16,6 +17,7 @@ const routes = [
 		handler: controller.getPlaylistById,
 		schema: {
 			description: "Get a playlist by ID",
+			tags: ["Playlist"],
 			params: {
 				type: "object",
 				properties: {
@@ -29,6 +31,7 @@ const routes = [
 		handler: controller.createPlaylist,
 		schema: {
 			description: "Create a new playlist",
+			tags: ["Playlist"],
 			body: playlistSchema,
 		}
 	}, {
@@ -37,6 +40,7 @@ const routes = [
 		handler: controller.deletePlaylistById,
 		schema: {
 			description: "Delete a playlist by ID",
+			tags: ["Playlist"],
 			params: {
 				type: "object",
 				properties: {
@@ -50,6 +54,7 @@ const routes = [
 		handler: controller.editPlaylistById,
 		schema: {
 			description: "Edit a playlist by ID",
+			tags: ["Playlist"],
 			body: playlistEditSchema,
 			params: {
 				type: "object",
@@ -64,6 +69,7 @@ const routes = [
 		handler: controller.addSongToPlaylist,
 		schema: {
 			description: "Add a song to a playlist",
+			tags: ["Playlist"],
 			params: {
 				type: "object",
 				properties: {
@@ -78,6 +84,7 @@ const routes = [
 		handler: controller.removeSongFromPlaylist,
 		schema: {
 			description: "Remove song from playlist",
+			tags: ["Playlist"],
 			params: {
 				type: "object",
 				properties: {

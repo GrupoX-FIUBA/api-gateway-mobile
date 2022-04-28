@@ -6,14 +6,16 @@ const routes = [
 		url: "/",
 		handler: controller.root,
 		schema: {
-			description: "Root"
+			description: "Root",
+			tags: ["Server"],
 		}
 	}, {
 		method: "GET",
 		url: "/ping",
 		handler: controller.ping,
 		schema: {
-			description: "Ping Pong"
+			description: "Ping Pong",
+			tags: ["Server"],
 		}
 	}
 ];

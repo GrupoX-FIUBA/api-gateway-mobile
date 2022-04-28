@@ -9,6 +9,7 @@ const routes = [
 		handler: controller.getAllAlbums,
 		schema: {
 			description: "Get all albums",
+			tags: ["Album"],
 		}
 	}, {
 		method: "GET",
@@ -16,6 +17,7 @@ const routes = [
 		handler: controller.getAlbumById,
 		schema: {
 			description: "Get an album by ID",
+			tags: ["Album"],
 			params: {
 				type: "object",
 				properties: {
@@ -29,6 +31,7 @@ const routes = [
 		handler: controller.createAlbum,
 		schema: {
 			description: "Create a new album",
+			tags: ["Album"],
 			body: albumSchema,
 		}
 	}, {
@@ -37,6 +40,7 @@ const routes = [
 		handler: controller.deleteAlbumById,
 		schema: {
 			description: "Delete an album by ID",
+			tags: ["Album"],
 			params: {
 				type: "object",
 				properties: {
@@ -50,6 +54,7 @@ const routes = [
 		handler: controller.editAlbumById,
 		schema: {
 			description: "Edit an album by ID",
+			tags: ["Album"],
 			body: albumEditSchema,
 			params: {
 				type: "object",
@@ -64,6 +69,7 @@ const routes = [
 		handler: controller.addSongToAlbum,
 		schema: {
 			description: "Add a song to an album",
+			tags: ["Album"],
 			params: {
 				type: "object",
 				properties: {
@@ -78,6 +84,7 @@ const routes = [
 		handler: controller.removeSongFromAlbum,
 		schema: {
 			description: "Remove song from album",
+			tags: ["Album"],
 			params: {
 				type: "object",
 				properties: {
