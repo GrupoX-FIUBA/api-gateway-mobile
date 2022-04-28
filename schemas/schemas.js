@@ -43,9 +43,16 @@ const playlistEditSchema = S.object()
 	.description("Schema used for playlist edition")
 	.prop("title", S.string());
 
+const userRegister = S.object()
+	.id("userRegister")
+	.title("UserRegister")
+	.description("Schema used for users registration")
+	.prop("email", S.string().required())
+	.prop("password", S.string().required());
+
 // Para cargarlos rapido en swagger
 const schemas = [songSchema, albumSchema, playlistSchema,
-	songEditSchema, albumEditSchema, playlistEditSchema];
+	songEditSchema, albumEditSchema, playlistEditSchema, userRegister];
 module.exports.schemas = schemas;
 
 // Los agrego por separado para que aparezcan en los request body en swagger
@@ -55,6 +62,7 @@ module.exports.playlistSchema = playlistSchema;
 module.exports.songEditSchema = songEditSchema;
 module.exports.albumEditSchema = albumEditSchema;
 module.exports.playlistEditSchema = playlistEditSchema;
+module.exports.userRegister = userRegister;
 
 
 
