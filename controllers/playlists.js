@@ -1,8 +1,6 @@
 const axios = require("axios");
 
-//const MUSIC_SERVICE_URL_LOCAL = "http://0.0.0.0:8000";
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com";
-
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
 
 const SONGS_PREFIX = "/songs";
@@ -10,7 +8,12 @@ const PLAYLISTS_PREFIX = "/playlists";
 
 exports.getAllPlaylists = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX;
-	axios.get(path)
+	axios.get(path, {
+		params: {
+			skip: req.query.skip,
+			limit: req.query.limit
+		}
+	})
 		.then(response => {
 			reply.send(response.data);
 		})
