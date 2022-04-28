@@ -1,9 +1,9 @@
 const axios = require("axios");
 
-const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com";
+const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
 
-const SONGS_PREFIX = "/songs";
+const SONGS_PREFIX = "songs/";
 
 exports.getAllSongs = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX;
@@ -22,7 +22,7 @@ exports.getAllSongs = async (req, reply) => {
 };
 
 exports.getSong = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + "/" + req.params.song_id;
+	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + req.params.song_id;
 	axios.get(path)
 		.then(response => {
 			reply.send(response.data);
@@ -48,7 +48,7 @@ exports.createSong = async (req, reply) => {
 };
 
 exports.deleteSong = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + "/" + req.params.song_id;
+	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + req.params.song_id;
 	axios.delete(path)
 		.then(response => {
 			reply.send(response.data);
@@ -59,7 +59,7 @@ exports.deleteSong = async (req, reply) => {
 };
 
 exports.editSong = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + "/" + req.params.song_id;
+	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + req.params.song_id;
 	axios.patch(path, {
 		title: req.body.title,
 		album_id: req.body.album_id,
