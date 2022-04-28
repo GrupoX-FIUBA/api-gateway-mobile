@@ -1,8 +1,6 @@
 const axios = require("axios");
 
-//const MUSIC_SERVICE_URL_LOCAL = "http://0.0.0.0:8000";
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com";
-
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
 
 const SONGS_PREFIX = "/songs";
