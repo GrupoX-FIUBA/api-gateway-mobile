@@ -1,6 +1,6 @@
 const controller = require("../controllers/albums.js");
-const albumSchema = require("../schemas/schemas").albumSchema;
-const albumEditSchema = require("../schemas/schemas").albumEditSchema;
+const albumSchema = require("../schemas/albums").albumSchema;
+const albumEditSchema = require("../schemas/albums").albumEditSchema;
 
 const routes = [
 	{

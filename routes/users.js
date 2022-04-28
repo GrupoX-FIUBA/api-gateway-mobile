@@ -1,5 +1,5 @@
 const controller = require("../controllers/users.js");
-const userRegister = require("../schemas/schemas").userRegister;
+const userRegister = require("../schemas/users").userRegister;
 
 const routes = [
 	{

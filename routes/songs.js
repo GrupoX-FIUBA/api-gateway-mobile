@@ -1,6 +1,6 @@
 const controller = require("../controllers/songs.js");
-const songSchema = require("../schemas/schemas").songSchema;
-const songEditSchema = require("../schemas/schemas").songEditSchema;
+const songSchema = require("../schemas/songs").songSchema;
+const songEditSchema = require("../schemas/songs").songEditSchema;
 
 const routes = [
 	{

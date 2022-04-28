@@ -1,6 +1,6 @@
 const controller = require("../controllers/playlists.js");
-const playlistSchema = require("../schemas/schemas").playlistSchema;
-const playlistEditSchema = require("../schemas/schemas").playlistEditSchema;
+const playlistSchema = require("../schemas/playlists").playlistSchema;
+const playlistEditSchema = require("../schemas/playlists").playlistEditSchema;
 
 const routes = [
 	{
