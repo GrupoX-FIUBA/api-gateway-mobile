@@ -1,6 +1,7 @@
 const controller = require("../controllers/songs.js");
 const songSchema = require("../schemas/schemas").songSchema;
 const songEditSchema = require("../schemas/schemas").songEditSchema;
+
 const routes = [
 	{
 		method: "GET",
@@ -9,6 +10,13 @@ const routes = [
 		schema: {
 			description: "Get all songs",
 			tags: ["Song"],
+			query: {
+				type: "object",
+				properties: {
+					skip: { type: "integer", default: 0 },
+					limit: { type: "integer", default: 100 }
+				}
+			},
 		}
 	}, {
 		method: "GET",

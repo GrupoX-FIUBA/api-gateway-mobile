@@ -10,7 +10,12 @@ const PLAYLISTS_PREFIX = "/playlists";
 
 exports.getAllPlaylists = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX;
-	axios.get(path)
+	axios.get(path, {
+		params: {
+			skip: req.query.skip,
+			limit: req.query.limit
+		}
+	})
 		.then(response => {
 			reply.send(response.data);
 		})

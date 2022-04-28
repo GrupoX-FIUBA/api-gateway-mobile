@@ -10,6 +10,13 @@ const routes = [
 		schema: {
 			description: "Get all albums",
 			tags: ["Album"],
+			query: {
+				type: "object",
+				properties: {
+					skip: { type: "integer", default: 0 },
+					limit: { type: "integer", default: 100 }
+				}
+			},
 		}
 	}, {
 		method: "GET",
