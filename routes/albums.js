@@ -8,7 +8,7 @@ const routes = [
 		url: "/albums",
 		handler: controller.getAllAlbums,
 		schema: {
-			description: "Get all albums",
+			description: "Get albums information",
 			tags: ["Album"],
 			query: {
 				type: "object",
