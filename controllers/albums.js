@@ -1,10 +1,10 @@
 const axios = require("axios");
 
-const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com";
+const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
 
-const SONGS_PREFIX = "/songs";
-const ALBUMS_PREFIX = "/albums";
+const SONGS_PREFIX = "songs/";
+const ALBUMS_PREFIX = "albums/";
 
 exports.getAllAlbums = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX;
@@ -23,7 +23,7 @@ exports.getAllAlbums = async (req, reply) => {
 };
 
 exports.getAlbumById = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + "/" + req.params.album_id;
+	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
 	axios.get(path)
 		.then(response => {
 			reply.send(response.data);
@@ -48,7 +48,7 @@ exports.createAlbum = async (req, reply) => {
 };
 
 exports.deleteAlbumById = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + "/" + req.params.album_id;
+	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
 	axios.delete(path)
 		.then(response => {
 			reply.send(response.data);
@@ -59,7 +59,7 @@ exports.deleteAlbumById = async (req, reply) => {
 };
 
 exports.editAlbumById = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + "/" + req.params.album_id;
+	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
 	axios.patch(path, {
 		title: req.body.title,
 	})
@@ -72,8 +72,8 @@ exports.editAlbumById = async (req, reply) => {
 };
 
 exports.addSongToAlbum = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + "/" + req.params.album_id +
-		SONGS_PREFIX + "/" + req.params.song_id;
+	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id +
+		SONGS_PREFIX + req.params.song_id;
 	axios.post(path)
 		.then(response => {
 			reply.send(response.data);
@@ -84,8 +84,8 @@ exports.addSongToAlbum = async (req, reply) => {
 };
 
 exports.removeSongFromAlbum = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + "/" + req.params.album_id +
-		SONGS_PREFIX + "/" + req.params.song_id;
+	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id +
+		SONGS_PREFIX + req.params.song_id;
 	axios.delete(path)
 		.then(response => {
 			reply.send(response.data);

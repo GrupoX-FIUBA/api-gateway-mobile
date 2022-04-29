@@ -1,6 +1,6 @@
 const controller = require("../controllers/albums.js");
-const albumSchema = require("../schemas/schemas").albumSchema;
-const albumEditSchema = require("../schemas/schemas").albumEditSchema;
+const albumSchema = require("../schemas/albums").albumSchema;
+const albumEditSchema = require("../schemas/albums").albumEditSchema;
 
 const routes = [
 	{
@@ -8,7 +8,7 @@ const routes = [
 		url: "/albums",
 		handler: controller.getAllAlbums,
 		schema: {
-			description: "Get all albums",
+			description: "Get albums information",
 			tags: ["Album"],
 			query: {
 				type: "object",
