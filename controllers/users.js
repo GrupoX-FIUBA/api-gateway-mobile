@@ -9,9 +9,19 @@ const ENABLE_PREFIX = "enable/";
 const DISABLE_PREFIX = "disable/";
 const REGISTERED_USERS_PREFIX = "registered_users/";
 
+const users_auth_headers = { "Authorization": { "X-API-Key:": "KEY" } };
+
+/*
+axios.interceptors.request.use(x => {
+	console.log(x);
+	return x;
+})
+*/
+
 exports.getUsers = async (req, reply) => {
 	const path = USERS_SERVICE_URL + USERS_PREFIX;
 	axios.get(path, {
+		headers: users_auth_headers,
 		params: {
 			skip: req.query.skip,
 			limit: req.query.limit
@@ -29,7 +39,9 @@ exports.registerUser = async (req, reply) => {
 	const path = USERS_SERVICE_URL + REGISTER_PREFIX;
 	axios.post(path, {
 		email: req.body.email,
-		password: req.body.password,
+		password: req.body.password
+	}, {
+		headers: users_auth_headers,
 	})
 		.then(response => {
 			reply.send(response.data);
@@ -41,7 +53,9 @@ exports.registerUser = async (req, reply) => {
 
 exports.deleteUserById = async (req, reply) => {
 	const path = USERS_SERVICE_URL + req.params.user_id;
-	axios.delete(path)
+	axios.delete(path, {
+		headers: users_auth_headers
+	})
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -52,7 +66,9 @@ exports.deleteUserById = async (req, reply) => {
 
 exports.enableUserById = async (req, reply) => {
 	const path = USERS_SERVICE_URL + ENABLE_PREFIX + req.params.user_id;
-	axios.patch(path)
+	axios.patch(path, null, {
+		headers: users_auth_headers
+	})
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -63,7 +79,9 @@ exports.enableUserById = async (req, reply) => {
 
 exports.disableUserById = async (req, reply) => {
 	const path = USERS_SERVICE_URL + DISABLE_PREFIX + req.params.user_id;
-	axios.patch(path)
+	axios.patch(path, null, {
+		headers: users_auth_headers
+	})
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -74,7 +92,9 @@ exports.disableUserById = async (req, reply) => {
 
 exports.getRegisteredUsers = async (req, reply) => {
 	const path = USERS_SERVICE_URL + REGISTERED_USERS_PREFIX;
-	axios.get(path)
+	axios.get(path, {
+		headers: users_auth_headers,
+	})
 		.then(response => {
 			reply.send(response.data);
 		})
