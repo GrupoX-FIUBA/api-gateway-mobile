@@ -1,5 +1,9 @@
 "use strict";
 
+const auth = require("./controllers/auth");
+const dotenv = require("dotenv");
+dotenv.config();
+
 const fastify = require("fastify");
 
 function build(opts = {}) {
@@ -14,6 +18,8 @@ function build(opts = {}) {
 		if (err) throw err;
 		app.swagger();
 	});
+
+	app.addHook("preValidation", auth.userAuthentication);
 
 	// Here are setted the routes
 	const songRoutes = require("./routes/songs");

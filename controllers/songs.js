@@ -5,9 +5,12 @@ const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
 
 const SONGS_PREFIX = "songs/";
 
+const music_auth_headers = { "Authorization": { "X-API-Key": process.env.MUSIC_SERVICE_API_KEY } };
+
 exports.getAllSongs = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX;
 	axios.get(path, {
+		headers: music_auth_headers,
 		params: {
 			skip: req.query.skip,
 			limit: req.query.limit
@@ -23,7 +26,9 @@ exports.getAllSongs = async (req, reply) => {
 
 exports.getSong = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + req.params.song_id;
-	axios.get(path)
+	axios.get(path, {
+		headers: music_auth_headers
+	})
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -38,6 +43,8 @@ exports.createSong = async (req, reply) => {
 		title: req.body.title,
 		artist_id: req.body.artist_id,
 		album_id: req.body.album_id
+	}, {
+		headers: music_auth_headers
 	})
 		.then(response => {
 			reply.send(response.data);
@@ -49,7 +56,9 @@ exports.createSong = async (req, reply) => {
 
 exports.deleteSong = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + req.params.song_id;
-	axios.delete(path)
+	axios.delete(path, {
+		headers: music_auth_headers
+	})
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -64,6 +73,8 @@ exports.editSong = async (req, reply) => {
 		title: req.body.title,
 		album_id: req.body.album_id,
 		blocked: req.body.blocked
+	}, { 
+		headers: music_auth_headers
 	})
 		.then(response => {
 			reply.send(response.data);

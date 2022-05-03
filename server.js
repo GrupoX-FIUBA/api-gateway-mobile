@@ -8,6 +8,7 @@ const server = require("./app")({
 });
 
 server.listen(PORT, "0.0.0.0", err => {
+	console.log(`Server is listening on port ${PORT}`);
 	if (err) {
 		server.log.error(err);
 		process.exit(1);

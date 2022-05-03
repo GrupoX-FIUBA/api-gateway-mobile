@@ -6,9 +6,12 @@ const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
 const SONGS_PREFIX = "songs/";
 const PLAYLISTS_PREFIX = "playlists/";
 
+const music_auth_headers = { "Authorization": { "X-API-Key": process.env.MUSIC_SERVICE_API_KEY } };
+
 exports.getAllPlaylists = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX;
 	axios.get(path, {
+		headers: music_auth_headers,
 		params: {
 			skip: req.query.skip,
 			limit: req.query.limit
@@ -24,7 +27,9 @@ exports.getAllPlaylists = async (req, reply) => {
 
 exports.getPlaylistById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id;
-	axios.get(path)
+	axios.get(path, {
+		headers: music_auth_headers
+	})
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -38,6 +43,8 @@ exports.createPlaylist = async (req, reply) => {
 	axios.post(path, {
 		title: req.body.title,
 		owner_id: req.body.owner_id,
+	}, {
+		headers: music_auth_headers
 	})
 		.then(response => {
 			reply.send(response.data);
@@ -49,7 +56,9 @@ exports.createPlaylist = async (req, reply) => {
 
 exports.deletePlaylistById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id;
-	axios.delete(path)
+	axios.delete(path, {
+		headers: music_auth_headers
+	})
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -62,6 +71,8 @@ exports.editPlaylistById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id;
 	axios.patch(path, {
 		title: req.body.title,
+	}, {
+		headers: music_auth_headers
 	})
 		.then(response => {
 			reply.send(response.data);
@@ -74,7 +85,9 @@ exports.editPlaylistById = async (req, reply) => {
 exports.addSongToPlaylist = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id +
 		SONGS_PREFIX + req.params.song_id;
-	axios.post(path)
+	axios.post(path, null, {
+		headers: music_auth_headers
+	})
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -87,7 +100,9 @@ exports.addSongToPlaylist = async (req, reply) => {
 exports.removeSongFromPlaylist = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id +
 		SONGS_PREFIX + req.params.song_id;
-	axios.delete(path)
+	axios.delete(path, {
+		headers: music_auth_headers
+	})
 		.then(response => {
 			reply.send(response.data);
 		})
