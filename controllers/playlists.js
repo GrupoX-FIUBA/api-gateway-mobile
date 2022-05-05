@@ -1,4 +1,4 @@
-const axios = require("axios");
+const axios_playlists = require("axios");
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
@@ -6,12 +6,15 @@ const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
 const SONGS_PREFIX = "songs/";
 const PLAYLISTS_PREFIX = "playlists/";
 
-const music_auth_headers = { "Authorization": { "X-API-Key": process.env.MUSIC_SERVICE_API_KEY } };
+axios_playlists.interceptors.request.use(function (config) {
+	config.headers.Authorization = { "X-API-Key": process.env.MUSIC_SERVICE_API_KEY };
+	console.log(config);
+	return config;
+});
 
-exports.getAllPlaylists = async (req, reply) => {
+exports.getPlaylists = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX;
-	axios.get(path, {
-		headers: music_auth_headers,
+	axios_playlists.get(path, {
 		params: {
 			skip: req.query.skip,
 			limit: req.query.limit
@@ -27,9 +30,7 @@ exports.getAllPlaylists = async (req, reply) => {
 
 exports.getPlaylistById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id;
-	axios.get(path, {
-		headers: music_auth_headers
-	})
+	axios_playlists.get(path)
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -40,11 +41,9 @@ exports.getPlaylistById = async (req, reply) => {
 
 exports.createPlaylist = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX;
-	axios.post(path, {
+	axios_playlists.post(path, {
 		title: req.body.title,
 		owner_id: req.body.owner_id,
-	}, {
-		headers: music_auth_headers
 	})
 		.then(response => {
 			reply.send(response.data);
@@ -56,9 +55,7 @@ exports.createPlaylist = async (req, reply) => {
 
 exports.deletePlaylistById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id;
-	axios.delete(path, {
-		headers: music_auth_headers
-	})
+	axios_playlists.delete(path)
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -69,10 +66,8 @@ exports.deletePlaylistById = async (req, reply) => {
 
 exports.editPlaylistById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id;
-	axios.patch(path, {
+	axios_playlists.patch(path, {
 		title: req.body.title,
-	}, {
-		headers: music_auth_headers
 	})
 		.then(response => {
 			reply.send(response.data);
@@ -83,11 +78,9 @@ exports.editPlaylistById = async (req, reply) => {
 };
 
 exports.addSongToPlaylist = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id +
+	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id + "/" +
 		SONGS_PREFIX + req.params.song_id;
-	axios.post(path, null, {
-		headers: music_auth_headers
-	})
+	axios_playlists.post(path)
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -98,11 +91,9 @@ exports.addSongToPlaylist = async (req, reply) => {
 };
 
 exports.removeSongFromPlaylist = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id +
+	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id + "/" +
 		SONGS_PREFIX + req.params.song_id;
-	axios.delete(path, {
-		headers: music_auth_headers
-	})
+	axios_playlists.delete(path)
 		.then(response => {
 			reply.send(response.data);
 		})
