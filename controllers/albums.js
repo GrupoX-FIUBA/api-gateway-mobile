@@ -1,4 +1,4 @@
-const axios = require("axios");
+const axios_albums = require("axios");
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
@@ -6,9 +6,15 @@ const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
 const SONGS_PREFIX = "songs/";
 const ALBUMS_PREFIX = "albums/";
 
-exports.getAllAlbums = async (req, reply) => {
+axios_albums.interceptors.request.use(function (config) {
+	config.headers.Authorization = { "X-API-Key": process.env.MUSIC_SERVICE_API_KEY };
+	console.log(config);
+	return config;
+});
+
+exports.getAlbums = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX;
-	axios.get(path, {
+	axios_albums.get(path, {
 		params: {
 			skip: req.query.skip,
 			limit: req.query.limit
@@ -24,7 +30,7 @@ exports.getAllAlbums = async (req, reply) => {
 
 exports.getAlbumById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
-	axios.get(path)
+	axios_albums.get(path)
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -35,7 +41,7 @@ exports.getAlbumById = async (req, reply) => {
 
 exports.createAlbum = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX;
-	axios.post(path, {
+	axios_albums.post(path, {
 		title: req.body.title,
 		artist_id: req.body.artist_id,
 	})
@@ -49,7 +55,7 @@ exports.createAlbum = async (req, reply) => {
 
 exports.deleteAlbumById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
-	axios.delete(path)
+	axios_albums.delete(path)
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -60,7 +66,7 @@ exports.deleteAlbumById = async (req, reply) => {
 
 exports.editAlbumById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
-	axios.patch(path, {
+	axios_albums.patch(path, {
 		title: req.body.title,
 	})
 		.then(response => {
@@ -72,9 +78,9 @@ exports.editAlbumById = async (req, reply) => {
 };
 
 exports.addSongToAlbum = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id +
+	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id + "/" +
 		SONGS_PREFIX + req.params.song_id;
-	axios.post(path)
+	axios_albums.post(path)
 		.then(response => {
 			reply.send(response.data);
 		})
@@ -84,9 +90,9 @@ exports.addSongToAlbum = async (req, reply) => {
 };
 
 exports.removeSongFromAlbum = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id +
+	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id + "/" +
 		SONGS_PREFIX + req.params.song_id;
-	axios.delete(path)
+	axios_albums.delete(path)
 		.then(response => {
 			reply.send(response.data);
 		})

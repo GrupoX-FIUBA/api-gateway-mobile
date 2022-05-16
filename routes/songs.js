@@ -6,7 +6,7 @@ const routes = [
 	{
 		method: "GET",
 		url: "/songs",
-		handler: controller.getAllSongs,
+		handler: controller.getSongs,
 		schema: {
 			description: "Get songs information",
 			tags: ["Song"],
