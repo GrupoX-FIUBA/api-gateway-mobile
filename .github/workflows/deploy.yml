@@ -17,5 +17,5 @@ jobs:
           heroku_email: ${{ secrets.HEROKU_EMAIL_EZE }}
           usedocker: true
         env:
-          MUSIC_SERVICE_API_KEY: ${{ secrets.MUSIC_SERVICE_API_KEY }}
-          USERS_SERVICE_API_KEY: ${{ secrets.USERS_SERVICE_API_KEY }}
+          HD_MUSIC_SERVICE_API_KEY: ${{ secrets.MUSIC_SERVICE_API_KEY }}
+          HD_USERS_SERVICE_API_KEY: ${{ secrets.USERS_SERVICE_API_KEY }}
