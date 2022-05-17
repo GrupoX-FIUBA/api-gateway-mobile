@@ -3,10 +3,12 @@ version: '3'
 services:
   fastify:
     build: .
-    container_name: fastify
+    container_name: api-gateway-mobile-fastify
     ports:
       - ${PORT:-8000}:${PORT:-8000}
     environment:
       - PORT=${PORT:-8000}
       - NODE_ENV=${NODE_ENV:-production}
       - DEBUG
+      - MUSIC_SERVICE_API_KEY=${MUSIC_SERVICE_API_KEY}
+      - USERS_SERVICE_API_KEY=${USERS_SERVICE_API_KEY}
