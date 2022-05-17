@@ -1,4 +1,4 @@
-const axios_albums = require("axios");
+const axios_albums = require("axios").create();;
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;

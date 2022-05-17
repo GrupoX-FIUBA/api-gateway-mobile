@@ -1,4 +1,4 @@
-const axios_songs = require("axios");
+const axios_songs = require("axios").create();
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
@@ -10,7 +10,7 @@ axios_songs.interceptors.request.use(function (config) {
 	return config;
 });
 
-exports.getSongs = async (req, reply) => { // Cambiar nombre
+exports.getSongs = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX;
 	axios_songs.get(path, {
 		params: {
