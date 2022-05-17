@@ -6,8 +6,7 @@ const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
 const SONGS_PREFIX = "songs/";
 
 axios_songs.interceptors.request.use(function (config) {
-	config.headers.Authorization = { "X-API-Key": process.env.MUSIC_SERVICE_API_KEY };
-	console.log(config);
+	config.headers["X-API-Key"] = process.env.MUSIC_SERVICE_API_KEY;
 	return config;
 });
 

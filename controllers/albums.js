@@ -7,8 +7,7 @@ const SONGS_PREFIX = "songs/";
 const ALBUMS_PREFIX = "albums/";
 
 axios_albums.interceptors.request.use(function (config) {
-	config.headers.Authorization = { "X-API-Key": process.env.MUSIC_SERVICE_API_KEY };
-	console.log(config);
+	config.headers["X-API-Key"] = process.env.MUSIC_SERVICE_API_KEY;
 	return config;
 });
 

@@ -10,7 +10,7 @@ const DISABLE_PREFIX = "disable/";
 const REGISTERED_USERS_PREFIX = "registered_users/";
 
 axios_users.interceptors.request.use(function (config) {
-	config.headers.Authorization = { "X-API-Key": process.env.USERS_SERVICE_API_KEY };
+	config.headers["X-API-Key"] = process.env.USERS_SERVICE_API_KEY;
 	return config;
 });
 
