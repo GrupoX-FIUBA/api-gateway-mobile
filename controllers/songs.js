@@ -47,13 +47,13 @@ exports.getSong = async (req, reply) => {
 exports.createSong = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX;
 
-	const firebaseURI = "uri/hardcodeada";
+	const fireURI = "null"; //HACER PATCH CUANDO SE CARGA EL MP3
 
 	axios_songs.post(path, {
 		title: req.body.title,
 		description: req.body.description,
 		subscription: req.body.subscription,
-		file_uri: firebaseURI,
+		file_uri: fireURI,
 		artist_id: req.body.artist_id,
 		genre_id: req.body.genre_id,
 		album_id: req.body.album_id
