@@ -16,7 +16,13 @@ exports.getAlbums = async (req, reply) => {
 	axios_albums.get(path, {
 		params: {
 			skip: req.query.skip,
-			limit: req.query.limit
+			limit: req.query.limit,
+			artist_id: req.query.artist_id,
+			subscription: req.query.subscription,
+			subscription__lt: req.query.subscription__lt,
+			subscription__lte: req.query.subscription__lte,
+			subscription__gt: req.query.subscription__gt,
+			subscription__gte: req.query.subscription__gte
 		}
 	})
 		.then(response => {
@@ -42,6 +48,9 @@ exports.createAlbum = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX;
 	axios_albums.post(path, {
 		title: req.body.title,
+		description: req.body.description,
+		genre_id: req.body.genre_id,
+		subscription: req.body.subscription,
 		artist_id: req.body.artist_id,
 	})
 		.then(response => {
@@ -67,6 +76,10 @@ exports.editAlbumById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
 	axios_albums.patch(path, {
 		title: req.body.title,
+		description: req.body.description,
+		genre_id: req.body.genre_id,
+		subscription: req.body.subscription,
+		blocked: req.body.blocked
 	})
 		.then(response => {
 			reply.send(response.data);

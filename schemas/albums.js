@@ -5,13 +5,21 @@ const albumSchema = S.object()
 	.title("Album")
 	.description("Schema used for albums")
 	.prop("title", S.string().required())
+	.prop("description", S.string().required())
+	.prop("genre_id", S.number().required())
+	.prop("subscription", S.number().required())
 	.prop("artist_id", S.number().required());
 
 const albumEditSchema = S.object()
 	.id("albumEditSchema")
 	.title("AlbumEdit")
 	.description("Schema used for album edition")
-	.prop("title", S.string().required());
+	.prop("title", S.string().required())
+	.prop("description", S.string().required())
+	.prop("genre_id", S.number().required())
+	.prop("subscription", S.number().required())
+	.prop("artist_id", S.number().required())
+	.prop("blocked", S.boolean());
 
 const schemas = [albumSchema, albumEditSchema];
 module.exports.schemas = schemas;
