@@ -24,6 +24,7 @@ function build() {
 	});
 
 	app.addHook("preValidation", auth.userAuthentication);
+	app.addHook("preSerialization", auth.updateResponse);
 
 	// Here are setted the routes
 	const songRoutes = require("./routes/songs");
