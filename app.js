@@ -6,8 +6,12 @@ dotenv.config();
 
 const fastify = require("fastify");
 
-function build(opts = {}) {
-	const app = fastify(opts);
+const optsFastify = {
+	bodyLimit: 10485760
+};
+
+function build() {
+	const app = fastify(optsFastify);
 
 	app.register(require("fastify-swagger"), {
 		routePrefix: "/docs",
@@ -20,6 +24,7 @@ function build(opts = {}) {
 	});
 
 	app.addHook("preValidation", auth.userAuthentication);
+	app.addHook("preSerialization", auth.updateResponse);
 
 	// Here are setted the routes
 	const songRoutes = require("./routes/songs");

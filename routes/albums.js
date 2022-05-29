@@ -1,6 +1,7 @@
 const controller = require("../controllers/albums.js");
 const albumSchema = require("../schemas/albums").albumSchema;
 const albumEditSchema = require("../schemas/albums").albumEditSchema;
+const albumImageSchema = require("../schemas/albums").albumImageSchema;
 
 const routes = [
 	{
@@ -14,7 +15,13 @@ const routes = [
 				type: "object",
 				properties: {
 					skip: { type: "integer", default: 0 },
-					limit: { type: "integer", default: 100 }
+					limit: { type: "integer", default: 100 },
+					artist_id: { type: "string" },
+					subscription: { type: "integer" },
+					subscription__lt: { type: "integer" },
+					subscription__lte: { type: "integer" },
+					subscription__gt: { type: "integer" },
+					subscription__gte: { type: "integer" },
 				}
 			},
 		}
@@ -99,6 +106,35 @@ const routes = [
 					song_id: { type: "string" }
 				}
 			},
+		}
+	}, {
+		method: "GET",
+		url: "/albums/image/:album_id",
+		handler: controller.getAlbumImage,
+		schema: {
+			description: "Get an album image",
+			tags: ["Album"],
+			params: {
+				type: "object",
+				properties: {
+					album_id: { type: "string" },
+				}
+			},
+		}
+	}, {
+		method: "POST",
+		url: "/albums/image/:album_id",
+		handler: controller.createAlbumImage,
+		schema: {
+			description: "Load an album image",
+			tags: ["Album"],
+			params: {
+				type: "object",
+				properties: {
+					album_id: { type: "string" },
+				}
+			},
+			body: albumImageSchema,
 		}
 	}
 ];

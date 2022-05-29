@@ -10,9 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.1",
+    "base64-arraybuffer": "^1.0.2",
     "dotenv": "^16.0.0",
     "fastify": "^3.28.0",
     "fastify-swagger": "^5.1.0",
+    "firebase": "^9.8.2",
     "fluent-json-schema": "^3.1.0",
     "http-errors": "^2.0.0"
   },

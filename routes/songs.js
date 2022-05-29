@@ -1,6 +1,7 @@
 const controller = require("../controllers/songs.js");
 const songSchema = require("../schemas/songs").songSchema;
 const songEditSchema = require("../schemas/songs").songEditSchema;
+const songUploadSchema = require("../schemas/songs").songUploadSchema;
 
 const routes = [
 	{
@@ -14,7 +15,13 @@ const routes = [
 				type: "object",
 				properties: {
 					skip: { type: "integer", default: 0 },
-					limit: { type: "integer", default: 100 }
+					limit: { type: "integer", default: 100 },
+					artist_id: { type: "string" },
+					subscription: { type: "integer" },
+					subscription__lt: { type: "integer" },
+					subscription__lte: { type: "integer" },
+					subscription__gt: { type: "integer" },
+					subscription__gte: { type: "integer" },
 				}
 			},
 		}
@@ -69,6 +76,35 @@ const routes = [
 					song_id: { type: "string" },
 				}
 			},
+		}
+	}, {
+		method: "GET",
+		url: "/songs/mp3/:song_id",
+		handler: controller.getSongMP3,
+		schema: {
+			description: "Get a song MP3",
+			tags: ["Song"],
+			params: {
+				type: "object",
+				properties: {
+					song_id: { type: "string" },
+				}
+			},
+		}
+	}, {
+		method: "POST",
+		url: "/songs/mp3/:song_id",
+		handler: controller.createSongMP3,
+		schema: {
+			description: "Upload a song MP3",
+			tags: ["Song"],
+			params: {
+				type: "object",
+				properties: {
+					song_id: { type: "string" },
+				}
+			},
+			body: songUploadSchema,
 		}
 	}
 ];

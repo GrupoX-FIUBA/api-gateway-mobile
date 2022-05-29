@@ -5,13 +5,16 @@ const playlistSchema = S.object()
 	.title("Playlist")
 	.description("Schema used for playlists")
 	.prop("title", S.string().required())
-	.prop("owner_id", S.number().required());
+	.prop("description", S.string().required())
+	.prop("owner_id", S.string().required());
 
 const playlistEditSchema = S.object()
 	.id("playlistEditSchema")
 	.title("PlaylistEdit")
 	.description("Schema used for playlist edition")
-	.prop("title", S.string());
+	.prop("title", S.string())
+	.prop("description", S.string().required())
+	.prop("collaborative", S.boolean().required());
 
 const schemas = [playlistSchema, playlistEditSchema];
 module.exports.schemas = schemas;
