@@ -6,8 +6,12 @@ dotenv.config();
 
 const fastify = require("fastify");
 
-function build(opts = {}) {
-	const app = fastify(opts);
+const optsFastify = {
+	bodyLimit: 10485760
+}
+
+function build() {
+	const app = fastify(optsFastify);
 
 	app.register(require("fastify-swagger"), {
 		routePrefix: "/docs",
