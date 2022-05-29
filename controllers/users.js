@@ -1,4 +1,4 @@
-const axios_users = require("axios").create();;
+const axios_users = require("axios").create();
 
 const USERS_SERVICE_URL_HEROKU = "https://spotifiuby-users-service.herokuapp.com/";
 const USERS_SERVICE_URL = USERS_SERVICE_URL_HEROKU;

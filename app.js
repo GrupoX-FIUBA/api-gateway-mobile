@@ -8,7 +8,7 @@ const fastify = require("fastify");
 
 const optsFastify = {
 	bodyLimit: 10485760
-}
+};
 
 function build() {
 	const app = fastify(optsFastify);
