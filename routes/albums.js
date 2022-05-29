@@ -1,6 +1,7 @@
 const controller = require("../controllers/albums.js");
 const albumSchema = require("../schemas/albums").albumSchema;
 const albumEditSchema = require("../schemas/albums").albumEditSchema;
+const albumImageSchema = require("../schemas/albums").albumImageSchema;
 
 const routes = [
 	{
@@ -105,6 +106,35 @@ const routes = [
 					song_id: { type: "string" }
 				}
 			},
+		}
+	}, {
+		method: "GET",
+		url: "/albums/image/:album_id",
+		handler: controller.getAlbumImage,
+		schema: {
+			description: "Get an album image",
+			tags: ["Album"],
+			params: {
+				type: "object",
+				properties: {
+					album_id: { type: "string" },
+				}
+			},
+		}
+	}, {
+		method: "POST",
+		url: "/albums/image/:album_id",
+		handler: controller.createAlbumImage,
+		schema: {
+			description: "Load an album image",
+			tags: ["Album"],
+			params: {
+				type: "object",
+				properties: {
+					album_id: { type: "string" },
+				}
+			},
+			body: albumImageSchema,
 		}
 	}
 ];

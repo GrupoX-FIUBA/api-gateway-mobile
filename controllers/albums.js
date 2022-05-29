@@ -1,4 +1,5 @@
-const axios_albums = require("axios").create();;
+const axios_albums = require("axios").create();
+const Fire = require("../fire.js").Fire;
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
@@ -112,4 +113,35 @@ exports.removeSongFromAlbum = async (req, reply) => {
 			reply.send(error);
 		});
 
+};
+
+exports.getAlbumImage = async (req, reply) => {
+	let fire = new Fire();
+	let bytes;
+	const fireURI = "albums/album_" + req.params.album_id;
+
+	try {
+		bytes = await fire.downloadBytes(fireURI);
+
+	} catch (error) {
+		reply.send(error);
+	}
+
+	reply.code(200).send({"file": bytes});
+};
+
+exports.createAlbumImage = async (req, reply) => {
+	let fire = new Fire();
+	let file = req.body.file;
+
+	try {
+		let enc = new TextEncoder(); // UTF-8
+		const bytes = Uint8Array.from(enc.encode(file));
+		fire.uploadBytes("albums/album_" + req.params.album_id, bytes);
+	
+	} catch (error) {
+		reply.send(error);
+	}
+
+	reply.code(200).send({"status": "File uploaded"});
 };
