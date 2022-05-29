@@ -18,7 +18,6 @@ const albumEditSchema = S.object()
 	.prop("description", S.string().required())
 	.prop("genre_id", S.number().required())
 	.prop("subscription", S.number().required())
-	.prop("artist_id", S.number().required())
 	.prop("blocked", S.boolean());
 
 const schemas = [albumSchema, albumEditSchema];

@@ -42,6 +42,7 @@ exports.createPlaylist = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX;
 	axios_playlists.post(path, {
 		title: req.body.title,
+		description: req.body.description,
 		owner_id: req.body.owner_id,
 	})
 		.then(response => {
@@ -67,6 +68,8 @@ exports.editPlaylistById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id;
 	axios_playlists.patch(path, {
 		title: req.body.title,
+		description: req.body.description,
+		collaborative: req.body.collaborative
 	})
 		.then(response => {
 			reply.send(response.data);
