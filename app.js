@@ -15,7 +15,21 @@ function build() {
 
 	app.register(require("fastify-swagger"), {
 		routePrefix: "/docs",
-		exposeRoute: true
+		exposeRoute: true,
+		swagger: {
+			info: {
+				title: 'API Gateway Mobile',
+				description: 'BFF API Documentation',
+				version: '0.1.0'
+			},
+
+			externalDocs: {
+				url: 'https://github.com/GrupoX-FIUBA/api-gateway-mobile',
+				description: 'Find more info here'
+			},
+
+			schemes: ['http'],
+		}
 	});
 
 	app.ready(err => {
