@@ -106,6 +106,20 @@ const routes = [
 			},
 			body: songUploadSchema,
 		}
+	}, {
+		method: "GET",
+		url: "/songs/uri/:song_id",
+		handler: controller.getDownloadURL,
+		schema: {
+			description: "Get a song MP3 URI",
+			tags: ["Song"],
+			params: {
+				type: "object",
+				properties: {
+					song_id: { type: "string" },
+				}
+			},
+		}
 	}
 ];
 

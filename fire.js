@@ -2,7 +2,7 @@ const initializeApp = require("firebase/app").initializeApp;
 const getStorage = require("firebase/storage").getStorage;
 const ref = require("firebase/storage").ref;
 const uploadBytes = require("firebase/storage").uploadBytes;
-//const getDownloadURL = require("firebase/storage").getDownloadURL;
+const getDownloadURL = require("firebase/storage").getDownloadURL;
 const getBytes = require("firebase/storage").getBytes;
 
 class Fire {
@@ -41,6 +41,12 @@ class Fire {
 		var plainText = await getBytes(ref(this.storage, resourceURI));
 
 		return enc.decode(plainText);
+	}
+
+	async getResourceURI(path) {
+		const fireURL = await getDownloadURL(ref(this.storage, path));
+		console.log(fireURL);
+		return fireURL;
 	}
 
 }
