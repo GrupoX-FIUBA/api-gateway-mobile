@@ -1,4 +1,5 @@
 const controller = require("../controllers/songs.js");
+const generalController = require("../controllers/general.js");
 const songSchema = require("../schemas/songs").songSchema;
 const songEditSchema = require("../schemas/songs").songEditSchema;
 const songUploadSchema = require("../schemas/songs").songUploadSchema;
@@ -119,6 +120,34 @@ const routes = [
 					song_id: { type: "string" },
 				}
 			},
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/songs/:song_id",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Song"],
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/songs/mp3/:song_id",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Song"],
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/songs",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Song"],
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/songs/uri/{song_id}",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Song"],
 		}
 	}
 ];

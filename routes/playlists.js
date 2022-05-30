@@ -1,4 +1,5 @@
 const controller = require("../controllers/playlists.js");
+const generalController = require("../controllers/general.js");
 const playlistSchema = require("../schemas/playlists").playlistSchema;
 const playlistEditSchema = require("../schemas/playlists").playlistEditSchema;
 
@@ -99,6 +100,27 @@ const routes = [
 					song_id: { type: "string" }
 				}
 			},
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/playlists",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Playlist"],
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/playlists/{playlist_id}",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Playlist"],
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/playlists/{playlist_id}/songs/{song_id}",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Playlist"],
 		}
 	}
 ];
