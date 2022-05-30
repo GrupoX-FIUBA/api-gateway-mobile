@@ -1,4 +1,5 @@
 const controller = require("../controllers/users.js");
+const generalController = require("../controllers/general.js");
 const userRegister = require("../schemas/users").userRegister;
 
 const routes = [
@@ -76,7 +77,42 @@ const routes = [
 			description: "Get amount of users registered",
 			tags: ["Users"],
 		}
-	},
+	}, {
+		method: "OPTIONS",
+		url: "/users/{user_id}",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Users"],
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/users",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Users"],
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/users/enable/{user_id}",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Users"],
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/users/disable/{user_id}",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Users"],
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/users/registered",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Users"],
+		}
+	}
 ];
 
 module.exports = routes;

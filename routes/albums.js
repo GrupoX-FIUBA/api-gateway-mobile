@@ -1,4 +1,5 @@
 const controller = require("../controllers/albums.js");
+const generalController = require("../controllers/general.js");
 const albumSchema = require("../schemas/albums").albumSchema;
 const albumEditSchema = require("../schemas/albums").albumEditSchema;
 const albumImageSchema = require("../schemas/albums").albumImageSchema;
@@ -135,6 +136,34 @@ const routes = [
 				}
 			},
 			body: albumImageSchema,
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/albums",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Album"],
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/albums/{album_id}",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Album"],
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/albums/{album_id}/songs/{song_id}",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Album"],
+		}
+	}, {
+		method: "OPTIONS",
+		url: "/albums/image/{album_id}",
+		handler: generalController.headerCORS,
+		schema: {
+			tags: ["Album"],
 		}
 	}
 ];
