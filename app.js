@@ -27,8 +27,6 @@ function build() {
 				url: 'https://github.com/GrupoX-FIUBA/api-gateway-mobile',
 				description: 'Find more info here'
 			},
-
-			schemes: ['http'],
 		}
 	});
 
