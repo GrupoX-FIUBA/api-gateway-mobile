@@ -1,5 +1,6 @@
 const axios_songs = require("axios").create();
 const Fire = require("../fire.js").Fire;
+const base64 = require("base-64");
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
@@ -99,17 +100,18 @@ exports.editSong = async (req, reply) => {
 
 exports.getSongMP3 = async (req, reply) => {
 	let fire = new Fire();
-	let bytes;
+	let bytes, encodedBytes;
 	const fireURI = "songs/song_" + req.params.song_id;
 
 	try {
 		bytes = await fire.downloadBytes(fireURI);
+		encodedBytes = base64.encode(bytes);
 
 	} catch (error) {
 		reply.send(error);
 	}
 
-	reply.code(200).send({"file": bytes});
+	reply.code(200).send({"file": encodedBytes});
 	
 };
 
@@ -118,13 +120,33 @@ exports.createSongMP3 = async (req, reply) => {
 	let file = req.body.file;
 
 	try {
-		let enc = new TextEncoder(); // UTF-8
-		const bytes = Uint8Array.from(enc.encode(file));
-		fire.uploadBytes("songs/song_" + req.params.song_id, bytes);
+		const byteCharacters = base64.decode(file);
+		
+		const byteNumbers = new Array(byteCharacters.length);
+		for (let i = 0; i < byteCharacters.length; i++) {
+			byteNumbers[i] = byteCharacters.charCodeAt(i);
+		}
+
+		const byteArray = new Uint8Array(byteNumbers);
+		fire.uploadBytes("songs/song_" + req.params.song_id, byteArray);
 	
 	} catch (error) {
 		reply.send(error);
 	}
 
 	reply.code(200).send({"status": "File uploaded"});
+};
+
+exports.getDownloadURL = async (req, reply) => {
+	let fire = new Fire();
+	let resourceURI;
+
+	try {
+		resourceURI = await fire.getResourceURI("songs/song_" + req.params.song_id);
+	
+	} catch (error) {
+		reply.send(error);
+	}
+
+	reply.code(200).send({"uri": resourceURI});
 };
