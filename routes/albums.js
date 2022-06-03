@@ -79,36 +79,6 @@ const routes = [
 			},
 		}
 	}, {
-		method: "POST",
-		url: "/albums/:album_id/songs/:song_id",
-		handler: controller.addSongToAlbum,
-		schema: {
-			description: "Add a song to an album",
-			tags: ["Album"],
-			params: {
-				type: "object",
-				properties: {
-					album_id: { type: "string" },
-					song_id: { type: "string" },
-				}
-			},
-		}
-	}, {
-		method: "DELETE",
-		url: "/albums/:album_id/songs/:song_id",
-		handler: controller.removeSongFromAlbum,
-		schema: {
-			description: "Remove song from album",
-			tags: ["Album"],
-			params: {
-				type: "object",
-				properties: {
-					album_id: { type: "string" },
-					song_id: { type: "string" }
-				}
-			},
-		}
-	}, {
 		method: "GET",
 		url: "/albums/image/:album_id",
 		handler: controller.getAlbumImage,
@@ -147,13 +117,6 @@ const routes = [
 	}, {
 		method: "OPTIONS",
 		url: "/albums/{album_id}",
-		handler: generalController.headerCORS,
-		schema: {
-			tags: ["Album"],
-		}
-	}, {
-		method: "OPTIONS",
-		url: "/albums/{album_id}/songs/{song_id}",
 		handler: generalController.headerCORS,
 		schema: {
 			tags: ["Album"],

@@ -8,6 +8,7 @@ const albumSchema = S.object()
 	.prop("description", S.string().required())
 	.prop("genre_id", S.number().required())
 	.prop("subscription", S.number().required())
+	.prop("songs", S.array().required())
 	.prop("artist_id", S.number().required());
 
 const albumEditSchema = S.object()
@@ -18,6 +19,7 @@ const albumEditSchema = S.object()
 	.prop("description", S.string().required())
 	.prop("genre_id", S.number().required())
 	.prop("subscription", S.number().required())
+	.prop("songs", S.array().required())
 	.prop("blocked", S.boolean());
 
 const albumImageSchema = S.object()

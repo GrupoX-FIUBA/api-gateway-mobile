@@ -47,19 +47,24 @@ exports.getAlbumById = async (req, reply) => {
 
 exports.createAlbum = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX;
-	axios_albums.post(path, {
-		title: req.body.title,
-		description: req.body.description,
-		genre_id: req.body.genre_id,
-		subscription: req.body.subscription,
-		artist_id: req.body.artist_id,
-	})
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			reply.send(error);
-		});
+	try{
+		const response = (await axios_albums.post(path, {
+			title: req.body.title,
+			description: req.body.description,
+			genre_id: req.body.genre_id,
+			subscription: req.body.subscription,
+			artist_id: req.body.artist_id,
+		})).data;
+		const {songsToAdd} = req.body;
+		for(let i=0;i<songsToAdd.length;i++){
+			const song = songsToAdd[i];
+			const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + response.id + "/" +
+				SONGS_PREFIX + song;
+			await axios_albums.post(path);
+		}
+	}catch(error){
+		reply.send(error);
+	}
 };
 
 exports.deleteAlbumById = async (req, reply) => {
@@ -75,44 +80,36 @@ exports.deleteAlbumById = async (req, reply) => {
 
 exports.editAlbumById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
-	axios_albums.patch(path, {
-		title: req.body.title,
-		description: req.body.description,
-		genre_id: req.body.genre_id,
-		subscription: req.body.subscription,
-		blocked: req.body.blocked
-	})
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			reply.send(error);
-		});
-};
-
-exports.addSongToAlbum = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id + "/" +
-		SONGS_PREFIX + req.params.song_id;
-	axios_albums.post(path)
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			reply.send(error);
-		});
-};
-
-exports.removeSongFromAlbum = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id + "/" +
-		SONGS_PREFIX + req.params.song_id;
-	axios_albums.delete(path)
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			reply.send(error);
-		});
-
+	try{
+		const response = (await axios_albums.patch(path, {
+			title: req.body.title,
+			description: req.body.description,
+			genre_id: req.body.genre_id,
+			subscription: req.body.subscription,
+			blocked: req.body.blocked
+		})).data
+		const songsToDelete = response.songs;
+		if (songsToDelete){
+			for(let i=0;i<songsToDelete.length;i++){
+				const song = songsToDelete[i].id;
+				const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + response.id + "/" +
+					SONGS_PREFIX + song;
+				await axios_albums.delete(path)
+			}
+		}
+		const songsToAdd = req.body.songs;
+		if(songsToAdd) {
+			for(let i=0;i<songsToAdd.length;i++){
+				const song = songsToAdd[i];
+				const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + response.id + "/" +
+					SONGS_PREFIX + song;
+				await axios_albums.post(path);
+			}
+		}
+		reply.send(response);
+	} catch (error) {
+		reply.send(error);
+	}
 };
 
 exports.getAlbumImage = async (req, reply) => {

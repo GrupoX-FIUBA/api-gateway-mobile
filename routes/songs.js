@@ -28,6 +28,21 @@ const routes = [
 		}
 	}, {
 		method: "GET",
+		url: "/genres",
+		handler: controller.getGenres,
+		schema: {
+			description: "Get genres information",
+			tags: ["Genre"],
+			query: {
+				type: "object",
+				properties: {
+					skip: { type: "integer", default: 0 },
+					limit: { type: "integer", default: 100 },
+				}
+			},
+		}
+	}, {
+		method: "GET",
 		url: "/songs/:song_id",
 		handler: controller.getSong,
 		schema: {

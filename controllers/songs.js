@@ -6,6 +6,7 @@ const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
 
 const SONGS_PREFIX = "songs/";
+const GENRES_PREFIX = "genres/";
 
 axios_songs.interceptors.request.use(function (config) {
 	config.headers["X-API-Key"] = process.env.MUSIC_SERVICE_API_KEY;
@@ -31,6 +32,17 @@ exports.getSongs = async (req, reply) => {
 		})
 		.catch(error => {
 			console.log(error);
+		});
+};
+
+exports.getGenres = async (req, reply) => {
+	const path = MUSIC_SERVICE_URL + GENRES_PREFIX;
+	axios_songs.get(path)
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
 		});
 };
 
