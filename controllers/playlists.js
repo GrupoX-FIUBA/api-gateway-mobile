@@ -40,17 +40,29 @@ exports.getPlaylistById = async (req, reply) => {
 
 exports.createPlaylist = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX;
-	axios_playlists.post(path, {
-		title: req.body.title,
-		description: req.body.description,
-		owner_id: req.body.owner_id,
-	})
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			reply.send(error);
+	try{
+		const response = (await axios_playlists.post(path, {
+			title: req.body.title,
+			description: req.body.description,
+			owner_id: req.body.owner_id,
+		})).data
+		const patchPath = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + response.id;
+		await axios_playlists.patch(patchPath, {
+			collaborative: req.body.collaborative,
 		});
+		const playlistSongs = req.body.songs;
+		for(let i=0;i<playlistSongs.length;i++){
+			const song = playlistSongs[i];
+			const songPath = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + response.id + "/" +
+				SONGS_PREFIX + song;
+			await axios_playlists.post(songPath);
+		}
+		response.songs = playlistSongs;
+		response.collaborative = req.body.collaborative;
+		reply.send(response);
+	}catch(error){
+		reply.send(error);
+	}
 };
 
 exports.deletePlaylistById = async (req, reply) => {
@@ -66,41 +78,30 @@ exports.deletePlaylistById = async (req, reply) => {
 
 exports.editPlaylistById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id;
-	axios_playlists.patch(path, {
-		title: req.body.title,
-		description: req.body.description,
-		collaborative: req.body.collaborative
-	})
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			reply.send(error);
-		});
-};
-
-exports.addSongToPlaylist = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id + "/" +
-		SONGS_PREFIX + req.params.song_id;
-	axios_playlists.post(path)
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			reply.send(error);
-		});
-
-};
-
-exports.removeSongFromPlaylist = async (req, reply) => {
-	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id + "/" +
-		SONGS_PREFIX + req.params.song_id;
-	axios_playlists.delete(path)
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			reply.send(error);
-		});
-
+	try{
+		const response = (await axios_playlists.patch(path, {
+			title: req.body.title,
+			description: req.body.description,
+			collaborative: req.body.collaborative
+		})).data
+		const playlistSongsToDelete = response.songs;
+		for(let i=0;i<playlistSongsToDelete.length;i++){
+			const song = playlistSongsToDelete[i].id;
+			const songPath = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id + "/" +
+				SONGS_PREFIX + song;
+			await axios_playlists.delete(songPath);
+		}
+		const playlistSongsToAdd = req.body.songs;
+		for(let i=0;i<playlistSongsToAdd.length;i++){
+			const song = playlistSongsToAdd[i];
+			const songPath = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + req.params.playlist_id + "/" +
+				SONGS_PREFIX + song;
+			await axios_playlists.post(songPath);
+		}
+		delete response.songs;
+		response.songs = playlistSongsToAdd;
+		reply.send(response);
+	} catch(error) {
+		reply.send(error);
+	}
 };

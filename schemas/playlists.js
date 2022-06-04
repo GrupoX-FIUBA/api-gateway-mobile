@@ -6,7 +6,9 @@ const playlistSchema = S.object()
 	.description("Schema used for playlists")
 	.prop("title", S.string().required())
 	.prop("description", S.string().required())
-	.prop("owner_id", S.string().required());
+	.prop("songs", S.array().required())
+	.prop("owner_id", S.string().required())
+	.prop("collaborative", S.boolean().required());;
 
 const playlistEditSchema = S.object()
 	.id("playlistEditSchema")
@@ -14,6 +16,7 @@ const playlistEditSchema = S.object()
 	.description("Schema used for playlist edition")
 	.prop("title", S.string())
 	.prop("description", S.string().required())
+	.prop("songs", S.array().required())
 	.prop("collaborative", S.boolean().required());
 
 const schemas = [playlistSchema, playlistEditSchema];

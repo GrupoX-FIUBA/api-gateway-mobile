@@ -94,6 +94,34 @@ const routes = [
 			},
 		}
 	}, {
+		method: "PATCH",
+		url: "/songs/enable/:song_id",
+		handler: controller.enableSong,
+		schema: {
+			description: "Enable a song by ID",
+			tags: ["Song"],
+			params: {
+				type: "object",
+				properties: {
+					song_id: { type: "string" },
+				}
+			},
+		}
+	}, {
+		method: "PATCH",
+		url: "/songs/disable/:song_id",
+		handler: controller.disableSong,
+		schema: {
+			description: "Disable a song by ID",
+			tags: ["Song"],
+			params: {
+				type: "object",
+				properties: {
+					song_id: { type: "string" },
+				}
+			},
+		}
+	}, {
 		method: "GET",
 		url: "/songs/mp3/:song_id",
 		handler: controller.getSongMP3,
@@ -135,34 +163,6 @@ const routes = [
 					song_id: { type: "string" },
 				}
 			},
-		}
-	}, {
-		method: "OPTIONS",
-		url: "/songs/:song_id",
-		handler: generalController.headerCORS,
-		schema: {
-			tags: ["Song"],
-		}
-	}, {
-		method: "OPTIONS",
-		url: "/songs/mp3/:song_id",
-		handler: generalController.headerCORS,
-		schema: {
-			tags: ["Song"],
-		}
-	}, {
-		method: "OPTIONS",
-		url: "/songs",
-		handler: generalController.headerCORS,
-		schema: {
-			tags: ["Song"],
-		}
-	}, {
-		method: "OPTIONS",
-		url: "/songs/uri/{song_id}",
-		handler: generalController.headerCORS,
-		schema: {
-			tags: ["Song"],
 		}
 	}
 ];

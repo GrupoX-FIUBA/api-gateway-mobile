@@ -107,27 +107,6 @@ const routes = [
 			},
 			body: albumImageSchema,
 		}
-	}, {
-		method: "OPTIONS",
-		url: "/albums",
-		handler: generalController.headerCORS,
-		schema: {
-			tags: ["Album"],
-		}
-	}, {
-		method: "OPTIONS",
-		url: "/albums/{album_id}",
-		handler: generalController.headerCORS,
-		schema: {
-			tags: ["Album"],
-		}
-	}, {
-		method: "OPTIONS",
-		url: "/albums/image/{album_id}",
-		handler: generalController.headerCORS,
-		schema: {
-			tags: ["Album"],
-		}
 	}
 ];
 

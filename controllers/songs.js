@@ -109,6 +109,34 @@ exports.editSong = async (req, reply) => {
 		});
 };
 
+exports.enableSong = async (req, reply) => {
+	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + req.params.song_id;
+	
+	axios_songs.patch(path, {
+		blocked: false
+	})
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.disableSong = async (req, reply) => {
+	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + req.params.song_id;
+	
+	axios_songs.patch(path, {
+		blocked: true
+	})
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
 
 exports.getSongMP3 = async (req, reply) => {
 	let fire = new Fire();

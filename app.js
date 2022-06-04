@@ -28,7 +28,15 @@ function build() {
 				description: 'Find more info here'
 			},
 		}
-	});
+	}).register(require('@fastify/cors'), (instance) => {
+		return (req, callback) => {
+		  const corsOptions = {
+			origin: true
+		  };
+	  
+		  callback(null, corsOptions)
+		}
+	  });
 
 	app.ready(err => {
 		if (err) throw err;

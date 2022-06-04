@@ -9,6 +9,7 @@
   "author": "GrupoX",
   "license": "ISC",
   "dependencies": {
+    "@fastify/cors": "^7.0.0",
     "axios": "^0.26.1",
     "base-64": "^1.0.0",
     "base64-arraybuffer": "^1.0.2",

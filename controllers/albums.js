@@ -58,9 +58,9 @@ exports.createAlbum = async (req, reply) => {
 		const {songsToAdd} = req.body;
 		for(let i=0;i<songsToAdd.length;i++){
 			const song = songsToAdd[i];
-			const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + response.id + "/" +
+			const songPath = MUSIC_SERVICE_URL + ALBUMS_PREFIX + response.id + "/" +
 				SONGS_PREFIX + song;
-			await axios_albums.post(path);
+			await axios_albums.post(songPath);
 		}
 	}catch(error){
 		reply.send(error);
@@ -92,18 +92,18 @@ exports.editAlbumById = async (req, reply) => {
 		if (songsToDelete){
 			for(let i=0;i<songsToDelete.length;i++){
 				const song = songsToDelete[i].id;
-				const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + response.id + "/" +
+				const songPath = MUSIC_SERVICE_URL + ALBUMS_PREFIX + response.id + "/" +
 					SONGS_PREFIX + song;
-				await axios_albums.delete(path)
+				await axios_albums.delete(songPath)
 			}
 		}
 		const songsToAdd = req.body.songs;
 		if(songsToAdd) {
 			for(let i=0;i<songsToAdd.length;i++){
 				const song = songsToAdd[i];
-				const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + response.id + "/" +
+				const songPath = MUSIC_SERVICE_URL + ALBUMS_PREFIX + response.id + "/" +
 					SONGS_PREFIX + song;
-				await axios_albums.post(path);
+				await axios_albums.post(songPath);
 			}
 		}
 		reply.send(response);

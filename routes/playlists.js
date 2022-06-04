@@ -71,57 +71,6 @@ const routes = [
 				}
 			},
 		}
-	}, {
-		method: "POST",
-		url: "/playlists/:playlist_id/songs/:song_id",
-		handler: controller.addSongToPlaylist,
-		schema: {
-			description: "Add a song to a playlist",
-			tags: ["Playlist"],
-			params: {
-				type: "object",
-				properties: {
-					playlist_id: { type: "string" },
-					song_id: { type: "string" },
-				}
-			},
-		}
-	}, {
-		method: "DELETE",
-		url: "/playlists/:playlist_id/songs/:song_id",
-		handler: controller.removeSongFromPlaylist,
-		schema: {
-			description: "Remove song from playlist",
-			tags: ["Playlist"],
-			params: {
-				type: "object",
-				properties: {
-					playlist_id: { type: "string" },
-					song_id: { type: "string" }
-				}
-			},
-		}
-	}, {
-		method: "OPTIONS",
-		url: "/playlists",
-		handler: generalController.headerCORS,
-		schema: {
-			tags: ["Playlist"],
-		}
-	}, {
-		method: "OPTIONS",
-		url: "/playlists/{playlist_id}",
-		handler: generalController.headerCORS,
-		schema: {
-			tags: ["Playlist"],
-		}
-	}, {
-		method: "OPTIONS",
-		url: "/playlists/{playlist_id}/songs/{song_id}",
-		handler: generalController.headerCORS,
-		schema: {
-			tags: ["Playlist"],
-		}
 	}
 ];
 
