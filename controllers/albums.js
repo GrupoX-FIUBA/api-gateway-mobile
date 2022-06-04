@@ -55,13 +55,15 @@ exports.createAlbum = async (req, reply) => {
 			subscription: req.body.subscription,
 			artist_id: req.body.artist_id,
 		})).data;
-		const {songsToAdd} = req.body;
+		const songsToAdd = req.body.songs;
 		for(let i=0;i<songsToAdd.length;i++){
 			const song = songsToAdd[i];
 			const songPath = MUSIC_SERVICE_URL + ALBUMS_PREFIX + response.id + "/" +
 				SONGS_PREFIX + song;
 			await axios_albums.post(songPath);
 		}
+		response.songs = songsToAdd;
+		reply.send(response)
 	}catch(error){
 		reply.send(error);
 	}
@@ -106,6 +108,8 @@ exports.editAlbumById = async (req, reply) => {
 				await axios_albums.post(songPath);
 			}
 		}
+		delete response.songs;
+		response.songs = songsToAdd;
 		reply.send(response);
 	} catch (error) {
 		reply.send(error);
