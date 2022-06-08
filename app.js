@@ -1,7 +1,9 @@
 "use strict";
 
 const tracer = require("dd-trace");
-tracer.init();
+if (process.env.NODE_ENV === "prod") {
+	tracer.init();
+}
 
 const auth = require("./controllers/auth");
 

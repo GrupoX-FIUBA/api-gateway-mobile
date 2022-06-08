@@ -21,3 +21,4 @@ jobs:
           HD_USERS_SERVICE_API_KEY: ${{ secrets.USERS_SERVICE_API_KEY }}
           HD_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           HD_DD_API_KEY: ${{ secrets.DD_API_KEY }}
+          HD_NODE_ENV: prod
