@@ -1,5 +1,4 @@
 const controller = require("../controllers/playlists.js");
-const generalController = require("../controllers/general.js");
 const playlistSchema = require("../schemas/playlists").playlistSchema;
 const playlistEditSchema = require("../schemas/playlists").playlistEditSchema;
 

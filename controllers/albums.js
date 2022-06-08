@@ -63,7 +63,7 @@ exports.createAlbum = async (req, reply) => {
 			await axios_albums.post(songPath);
 		}
 		response.songs = songsToAdd;
-		reply.send(response)
+		reply.send(response);
 	}catch(error){
 		reply.send(error);
 	}
@@ -89,14 +89,14 @@ exports.editAlbumById = async (req, reply) => {
 			genre_id: req.body.genre_id,
 			subscription: req.body.subscription,
 			blocked: req.body.blocked
-		})).data
+		})).data;
 		const songsToDelete = response.songs;
 		if (songsToDelete){
 			for(let i=0;i<songsToDelete.length;i++){
 				const song = songsToDelete[i].id;
 				const songPath = MUSIC_SERVICE_URL + ALBUMS_PREFIX + response.id + "/" +
 					SONGS_PREFIX + song;
-				await axios_albums.delete(songPath)
+				await axios_albums.delete(songPath);
 			}
 		}
 		const songsToAdd = req.body.songs;

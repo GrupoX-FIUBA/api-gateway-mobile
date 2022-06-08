@@ -13,6 +13,7 @@
     "axios": "^0.26.1",
     "base-64": "^1.0.0",
     "base64-arraybuffer": "^1.0.2",
+    "dd-trace": "^2.8.0",
     "dotenv": "^16.0.0",
     "fastify": "^3.28.0",
     "fastify-swagger": "^5.1.0",

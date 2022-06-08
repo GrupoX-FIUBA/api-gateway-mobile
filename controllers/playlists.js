@@ -45,7 +45,7 @@ exports.createPlaylist = async (req, reply) => {
 			title: req.body.title,
 			description: req.body.description,
 			owner_id: req.body.owner_id,
-		})).data
+		})).data;
 		const patchPath = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + response.id;
 		await axios_playlists.patch(patchPath, {
 			collaborative: req.body.collaborative,
@@ -83,7 +83,7 @@ exports.editPlaylistById = async (req, reply) => {
 			title: req.body.title,
 			description: req.body.description,
 			collaborative: req.body.collaborative
-		})).data
+		})).data;
 		const playlistSongsToDelete = response.songs;
 		for(let i=0;i<playlistSongsToDelete.length;i++){
 			const song = playlistSongsToDelete[i].id;

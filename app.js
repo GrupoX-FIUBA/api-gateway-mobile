@@ -1,6 +1,10 @@
 "use strict";
 
+const tracer = require("dd-trace");
+tracer.init();
+
 const auth = require("./controllers/auth");
+
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -18,25 +22,25 @@ function build() {
 		exposeRoute: true,
 		swagger: {
 			info: {
-				title: 'API Gateway Mobile',
-				description: 'BFF API Documentation',
-				version: '0.1.0'
+				title: "API Gateway Mobile",
+				description: "BFF API Documentation",
+				version: "0.1.0"
 			},
 
 			externalDocs: {
-				url: 'https://github.com/GrupoX-FIUBA/api-gateway-mobile',
-				description: 'Find more info here'
+				url: "https://github.com/GrupoX-FIUBA/api-gateway-mobile",
+				description: "Find more info here"
 			},
 		}
-	}).register(require('@fastify/cors'), (instance) => {
+	}).register(require("@fastify/cors"), () => {
 		return (req, callback) => {
-		  const corsOptions = {
-			origin: true
-		  };
-	  
-		  callback(null, corsOptions)
-		}
-	  });
+			const corsOptions = {
+				origin: true
+			};
+
+			callback(null, corsOptions);
+		};
+	});
 
 	app.ready(err => {
 		if (err) throw err;

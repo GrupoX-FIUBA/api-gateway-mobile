@@ -1,5 +1,4 @@
 const controller = require("../controllers/songs.js");
-const generalController = require("../controllers/general.js");
 const songSchema = require("../schemas/songs").songSchema;
 const songEditSchema = require("../schemas/songs").songEditSchema;
 const songUploadSchema = require("../schemas/songs").songUploadSchema;
