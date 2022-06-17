@@ -38,6 +38,20 @@ exports.getUsers = async (req, reply) => {
 	}
 };
 
+exports.getUserById = async (req, reply) => {
+	try{
+		const response = await getAllUsers({
+			skip: 0,
+			limit: 200
+		});
+		reply.send(response.find(user => user.id === req.params.user_id));
+	}
+	catch(error){
+		console.log(error)
+		reply.send(error)
+	}
+};
+
 exports.registerUser = async (req, reply) => {
 	const path = USERS_SERVICE_URL + REGISTER_PREFIX;
 	axios_users.post(path, {

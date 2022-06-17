@@ -18,6 +18,20 @@ const routes = [
 			},
 		}
 	}, {
+		method: "GET",
+		url: "/users/:user_id",
+		handler: controller.getUserById,
+		schema: {
+			description: "Get user information",
+			tags: ["Users"],
+			params: {
+				type: "object",
+				properties: {
+					user_id: { type: "string" },
+				}
+			},
+		}
+	}, {
 		method: "DELETE",
 		url: "/users/:user_id",
 		handler: controller.deleteUserById,
