@@ -1,6 +1,7 @@
 const axios_songs = require("axios").create();
 const Fire = require("../fire.js").Fire;
 const base64 = require("base-64");
+const jwt_decode = require("jwt-decode");
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
