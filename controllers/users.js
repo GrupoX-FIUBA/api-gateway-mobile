@@ -14,20 +14,25 @@ axios_users.interceptors.request.use(function (config) {
 	return config;
 });
 
-exports.getUsers = async (req, reply) => {
+exports.getAllUsers = async (params) => {
 	const path = USERS_SERVICE_URL + USERS_PREFIX;
-	axios_users.get(path, {
-		params: {
+	const response = axios_users.get(path, {
+		params: params
+	})
+	return response.data;
+}
+
+exports.getUsers = async (req, reply) => {
+	try{
+		const response = await getAllUsers({
 			skip: req.query.skip,
 			limit: req.query.limit
-		}
-	})
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			console.log(error);
 		});
+		reply.send(response);
+	}
+	catch(error){
+		console.log(error)
+	}
 };
 
 exports.registerUser = async (req, reply) => {

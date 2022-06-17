@@ -8,8 +8,7 @@ const albumSchema = S.object()
 	.prop("description", S.string().required())
 	.prop("genre_id", S.number().required())
 	.prop("subscription", S.number().required())
-	.prop("songs", S.array().required())
-	.prop("artist_id", S.number().required());
+	.prop("songs", S.array().required());
 
 const albumEditSchema = S.object()
 	.id("albumEditSchema")

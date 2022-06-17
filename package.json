@@ -19,7 +19,8 @@
     "fastify-swagger": "^5.1.0",
     "firebase": "^9.8.2",
     "fluent-json-schema": "^3.1.0",
-    "http-errors": "^2.0.0"
+    "http-errors": "^2.0.0",
+    "jwt-decode": "^3.1.2"
   },
   "devDependencies": {
     "eslint": "^8.12.0",

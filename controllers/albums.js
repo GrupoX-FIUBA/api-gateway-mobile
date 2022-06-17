@@ -1,5 +1,7 @@
 const axios_albums = require("axios").create();
 const Fire = require("../fire.js").Fire;
+const jwt_decode = require("jwt-decode");
+const { getAllUsers } = require("./users.js");
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
@@ -48,12 +50,17 @@ exports.getAlbumById = async (req, reply) => {
 exports.createAlbum = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX;
 	try{
+		const token = jwt_decode(req.headers.authorization);
+		const userEmail = token['email'];
+		const users = await getAllUsers({});
+		const user = users.find(user => user.email === userEmail);
+		const userId = user.id;
 		const response = (await axios_albums.post(path, {
 			title: req.body.title,
 			description: req.body.description,
 			genre_id: req.body.genre_id,
 			subscription: req.body.subscription,
-			artist_id: req.body.artist_id,
+			artist_id: userId,
 		})).data;
 		const songsToAdd = req.body.songs;
 		for(let i=0;i<songsToAdd.length;i++){
