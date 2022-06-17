@@ -1,7 +1,6 @@
 const axios_albums = require("axios").create();
 const Fire = require("../fire.js").Fire;
 const jwt_decode = require("jwt-decode");
-const { getAllUsers } = require("./users.js");
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
@@ -51,10 +50,7 @@ exports.createAlbum = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX;
 	try{
 		const token = jwt_decode(req.headers.authorization);
-		const userEmail = token['email'];
-		const users = await getAllUsers({});
-		const user = users.find(user => user.email === userEmail);
-		const userId = user.id;
+		const userId = token['user_id'];
 		const response = (await axios_albums.post(path, {
 			title: req.body.title,
 			description: req.body.description,
@@ -78,18 +74,29 @@ exports.createAlbum = async (req, reply) => {
 
 exports.deleteAlbumById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
-	axios_albums.delete(path)
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			reply.send(error);
-		});
+	const albumPath = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
+	try{
+		const album = (await axios_albums.get(albumPath)).data;
+		const token = jwt_decode(req.headers.authorization);
+		const userId = token['user_id']; //AGREGAR VERIFICACIÓN DE USUARIO
+		if(album.artist_id !== userId)
+			throw 'Forbidden';
+		const response = (await axios_albums.delete(path)).data;
+		reply.send(response);
+	}catch(error) {
+		reply.send(error);
+	}
 };
 
 exports.editAlbumById = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
+	const albumPath = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
 	try{
+		const album = (await axios_albums.get(albumPath)).data;
+		const token = jwt_decode(req.headers.authorization);
+		const userId = token['user_id']; //AGREGAR VERIFICACIÓN DE USUARIO
+		if(album.artist_id !== userId)
+			throw 'Forbidden';
 		const response = (await axios_albums.patch(path, {
 			title: req.body.title,
 			description: req.body.description,

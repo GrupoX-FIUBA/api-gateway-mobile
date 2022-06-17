@@ -61,22 +61,22 @@ exports.createSong = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX;
 
 	const fireURI = "null"; //HACER PATCH CUANDO SE CARGA EL MP3
-
-	axios_songs.post(path, {
-		title: req.body.title,
-		description: req.body.description,
-		subscription: req.body.subscription,
-		file_uri: fireURI,
-		artist_id: req.body.artist_id,
-		genre_id: req.body.genre_id,
-		album_id: req.body.album_id
-	})
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			reply.send(error);
-		});
+	try{
+		const token = jwt_decode(req.headers.authorization);
+		const userId = token['user_id'];
+		const response = (await axios_songs.post(path, {
+			title: req.body.title,
+			description: req.body.description,
+			subscription: req.body.subscription,
+			file_uri: fireURI,
+			artist_id: userId,
+			genre_id: req.body.genre_id,
+			album_id: req.body.album_id
+		})).data
+		reply.send(response);
+	}catch(error){
+		reply.send(error);
+	};
 };
 
 exports.deleteSong = async (req, reply) => {

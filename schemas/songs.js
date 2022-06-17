@@ -7,7 +7,6 @@ const songSchema = S.object()
 	.prop("title", S.string().required())
 	.prop("description", S.string().required())
 	.prop("subscription", S.number().required())
-	.prop("artist_id", S.string().required())
 	.prop("genre_id", S.number().required())
 	.prop("album_id", S.number());
 

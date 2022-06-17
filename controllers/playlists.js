@@ -13,18 +13,17 @@ axios_playlists.interceptors.request.use(function (config) {
 
 exports.getPlaylists = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX;
-	axios_playlists.get(path, {
-		params: {
-			skip: req.query.skip,
-			limit: req.query.limit
-		}
-	})
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			console.log(error);
-		});
+	try{
+		const response = (await axios_playlists.get(path, {
+			params: {
+				skip: req.query.skip,
+				limit: req.query.limit
+			}
+		})).data;
+		reply.send(response);
+	} catch(error) {
+		console.log(error);
+	}
 };
 
 exports.getPlaylistById = async (req, reply) => {
@@ -41,15 +40,19 @@ exports.getPlaylistById = async (req, reply) => {
 exports.createPlaylist = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX;
 	try{
+		const token = jwt_decode(req.headers.authorization);
+		const userId = token['user_id'];
 		const response = (await axios_playlists.post(path, {
 			title: req.body.title,
 			description: req.body.description,
-			owner_id: req.body.owner_id,
+			owner_id: userId,
 		})).data;
 		const patchPath = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX + response.id;
-		await axios_playlists.patch(patchPath, {
-			collaborative: req.body.collaborative,
-		});
+		if(req.body.collaborative === true) {
+			await axios_playlists.patch(patchPath, {
+				collaborative: req.body.collaborative,
+			});
+		}
 		const playlistSongs = req.body.songs;
 		for(let i=0;i<playlistSongs.length;i++){
 			const song = playlistSongs[i];

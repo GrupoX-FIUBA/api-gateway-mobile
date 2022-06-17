@@ -7,7 +7,6 @@ const playlistSchema = S.object()
 	.prop("title", S.string().required())
 	.prop("description", S.string().required())
 	.prop("songs", S.array().required())
-	.prop("owner_id", S.string().required())
 	.prop("collaborative", S.boolean().required());
 
 const playlistEditSchema = S.object()
