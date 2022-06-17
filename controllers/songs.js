@@ -1,5 +1,5 @@
 const axios_songs = require("axios").create();
-const Fire = require("../fire.js").Fire;
+const Fire = require("../fire/fire.js").Fire;
 const base64 = require("base-64");
 const jwt_decode = require("jwt-decode");
 
@@ -64,7 +64,7 @@ exports.createSong = async (req, reply) => {
 	const fireURI = "null"; //HACER PATCH CUANDO SE CARGA EL MP3
 	try{
 		const token = jwt_decode(req.headers.authorization);
-		const userId = token['user_id'];
+		const userId = token["user_id"];
 		const response = (await axios_songs.post(path, {
 			title: req.body.title,
 			description: req.body.description,
@@ -73,11 +73,11 @@ exports.createSong = async (req, reply) => {
 			artist_id: userId,
 			genre_id: req.body.genre_id,
 			album_id: 2
-		})).data
+		})).data;
 		reply.send(response);
 	}catch(error){
 		reply.send(error);
-	};
+	}
 };
 
 exports.deleteSong = async (req, reply) => {

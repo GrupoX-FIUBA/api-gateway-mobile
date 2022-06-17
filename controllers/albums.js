@@ -1,5 +1,5 @@
 const axios_albums = require("axios").create();
-const Fire = require("../fire.js").Fire;
+const Fire = require("../fire/fire.js").Fire;
 const jwt_decode = require("jwt-decode");
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
@@ -50,7 +50,7 @@ exports.createAlbum = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX;
 	try{
 		const token = jwt_decode(req.headers.authorization);
-		const userId = token['user_id'];
+		const userId = token["user_id"];
 		const response = (await axios_albums.post(path, {
 			title: req.body.title,
 			description: req.body.description,
@@ -78,9 +78,9 @@ exports.deleteAlbumById = async (req, reply) => {
 	try{
 		const album = (await axios_albums.get(albumPath)).data;
 		const token = jwt_decode(req.headers.authorization);
-		const userId = token['user_id']; //AGREGAR VERIFICACIÓN DE USUARIO
+		const userId = token["user_id"]; //AGREGAR VERIFICACIÓN DE USUARIO
 		if(album.artist_id !== userId)
-			throw 'Forbidden';
+			throw "Forbidden";
 		const response = (await axios_albums.delete(path)).data;
 		reply.send(response);
 	}catch(error) {
@@ -94,9 +94,9 @@ exports.editAlbumById = async (req, reply) => {
 	try{
 		const album = (await axios_albums.get(albumPath)).data;
 		const token = jwt_decode(req.headers.authorization);
-		const userId = token['user_id']; //AGREGAR VERIFICACIÓN DE USUARIO
+		const userId = token["user_id"]; //AGREGAR VERIFICACIÓN DE USUARIO
 		if(album.artist_id !== userId)
-			throw 'Forbidden';
+			throw "Forbidden";
 		const response = (await axios_albums.patch(path, {
 			title: req.body.title,
 			description: req.body.description,
@@ -130,33 +130,17 @@ exports.editAlbumById = async (req, reply) => {
 	}
 };
 
-exports.getAlbumImage = async (req, reply) => {
+exports.getDownloadURL = async (req, reply) => {
 	let fire = new Fire();
-	let bytes;
-	const fireURI = "albums/album_" + req.params.album_id;
+	let resourceURI;
 
 	try {
-		bytes = await fire.downloadBytes(fireURI);
-
-	} catch (error) {
-		reply.send(error);
-	}
-
-	reply.code(200).send({"file": bytes});
-};
-
-exports.createAlbumImage = async (req, reply) => {
-	let fire = new Fire();
-	let file = req.body.file;
-
-	try {
-		let enc = new TextEncoder(); // UTF-8
-		const bytes = Uint8Array.from(enc.encode(file));
-		fire.uploadBytes("albums/album_" + req.params.album_id, bytes);
+		resourceURI = await fire.getResourceURI("albums/album_" + req.params.album_id);
 	
 	} catch (error) {
 		reply.send(error);
 	}
 
-	reply.code(200).send({"status": "File uploaded"});
+	reply.code(200).send({"uri": resourceURI});
 };
+

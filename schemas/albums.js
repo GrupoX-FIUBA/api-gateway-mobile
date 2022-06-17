@@ -21,15 +21,8 @@ const albumEditSchema = S.object()
 	.prop("songs", S.array().required())
 	.prop("blocked", S.boolean());
 
-const albumImageSchema = S.object()
-	.id("albumImageSchema")
-	.title("AlbumImage")
-	.description("Schema used for album image upload")
-	.prop("file", S.string());
-
-const schemas = [albumSchema, albumEditSchema, albumImageSchema];
+const schemas = [albumSchema, albumEditSchema];
 module.exports.schemas = schemas;
 
 module.exports.albumSchema = albumSchema;
 module.exports.albumEditSchema = albumEditSchema;
-module.exports.albumImageSchema = albumImageSchema;

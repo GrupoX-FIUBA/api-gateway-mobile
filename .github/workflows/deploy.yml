@@ -22,3 +22,6 @@ jobs:
           HD_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           HD_DD_API_KEY: ${{ secrets.DD_API_KEY }}
           HD_NODE_ENV: prod
+          HD_PRIVATE_KEY_ID: ${{ secrets.PRIVATE_KEY_ID }}
+          HD_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          HD_CLIENT_ID: ${{ secrets.CLIENT_ID }}

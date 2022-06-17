@@ -21,15 +21,9 @@ const songEditSchema = S.object()
 	.prop("genre_id", S.number().required())
 	.prop("blocked", S.boolean());
 
-const songUploadSchema = S.object()
-	.id("songMP3Schema")
-	.title("SongMP3")
-	.description("Schema used for song upload")
-	.prop("file", S.string());
 
-const schemas = [songSchema, songEditSchema, songUploadSchema];
+const schemas = [songSchema, songEditSchema];
 module.exports.schemas = schemas;
 
 module.exports.songSchema = songSchema;
 module.exports.songEditSchema = songEditSchema;
-module.exports.songUploadSchema = songUploadSchema;
