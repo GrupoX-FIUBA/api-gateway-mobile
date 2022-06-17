@@ -72,7 +72,7 @@ exports.createSong = async (req, reply) => {
 			file_uri: fireURI,
 			artist_id: userId,
 			genre_id: req.body.genre_id,
-			album_id: req.body.album_id
+			album_id: 0
 		})).data
 		reply.send(response);
 	}catch(error){
