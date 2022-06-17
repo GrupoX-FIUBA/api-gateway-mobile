@@ -16,7 +16,7 @@ axios_users.interceptors.request.use(function (config) {
 
 exports.getAllUsers = async (params) => {
 	const path = USERS_SERVICE_URL + USERS_PREFIX;
-	const response = axios_users.get(path, {
+	const response = await axios_users.get(path, {
 		params: params
 	})
 	return response.data;
