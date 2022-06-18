@@ -39,6 +39,15 @@ exports.getUsers = async (req, reply) => {
 			skip: req.query.skip,
 			limit: req.query.limit
 		});
+		const fire = new Fire();
+		for(let i=0; i<response.length; i++){
+			if(!(await fire.objectExists("profiles/user_" + response[i].uid))){
+				response[i].image = null;
+			}else{
+				const resourceURI = await fire.getResourceURI("profiles/user_" + response[i].uid, "read");
+				response[i].image = resourceURI;
+			}
+		}
 		reply.send(response);
 	}
 	catch(error){
@@ -53,10 +62,10 @@ exports.getUserById = async (req, reply) => {
 		const path = USERS_SERVICE_URL + USERS_PREFIX + req.params.user_id;
 		const response = (await axios_users.get(path)).data;
 		if(!(await fire.objectExists("profiles/user_" + req.params.user_id))){
-			response[i].image = null;
+			response.image = null;
 		}else{
 			const resourceURI = await fire.getResourceURI("profiles/user_" + req.params.user_id, "read");
-			response[i].image = resourceURI;
+			response.image = resourceURI;
 		}
 		reply.send(response);
 	}
