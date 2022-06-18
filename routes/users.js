@@ -90,6 +90,20 @@ const routes = [
 			description: "Get amount of users registered",
 			tags: ["Users"],
 		}
+	}, {
+		method: "GET",
+		url: "/users/writeuri",
+		handler: controller.getWriteURL,
+		schema: {
+			description: "Get an user image profile write URI",
+			tags: ["Album"],
+			query: {
+				type: "object",
+				properties: {
+					type: { type: "string" },
+				}
+			},
+		}
 	}
 ];
 

@@ -1,3 +1,5 @@
+const { Fire } = require("../fire/fire");
+
 const axios_users = require("axios").create();
 
 const USERS_SERVICE_URL_HEROKU = "https://spotifiuby-users-service.herokuapp.com/";
@@ -8,6 +10,7 @@ const REGISTER_PREFIX = "register/";
 const ENABLE_PREFIX = "enable/";
 const DISABLE_PREFIX = "disable/";
 const REGISTERED_USERS_PREFIX = "registered_users/";
+const USER_ADMIN_STATUS_PREFIX = "/admin_status";
 
 axios_users.interceptors.request.use(function (config) {
 	config.headers["X-API-Key"] = process.env.USERS_SERVICE_API_KEY;
@@ -40,11 +43,23 @@ exports.getUsers = async (req, reply) => {
 
 exports.getUserById = async (req, reply) => {
 	try{
-		const response = await getAllUsers({
-			skip: 0,
-			limit: 200
-		});
-		reply.send(response.find(user => user.id === req.params.user_id));
+		const path = USERS_SERVICE_URL + USERS_PREFIX + req.params.user_id;
+		const response = (await axios_users.get(path)).data;
+		reply.send(response);
+	}
+	catch(error){
+		console.log(error);
+		reply.send(error);
+	}
+};
+
+exports.setUserAdmin = async (req, reply) => {
+	try{
+		const path = USERS_SERVICE_URL + USERS_PREFIX + req.params.user_id + USER_ADMIN_STATUS_PREFIX;
+		const response = (await axios_users.put(path, {
+
+		})).data;
+		reply.send(response);
 	}
 	catch(error){
 		console.log(error);
@@ -108,4 +123,19 @@ exports.getRegisteredUsers = async (req, reply) => {
 		.catch(error => {
 			console.log(error);
 		});
+};
+
+exports.getWriteURL = async (req, reply) => {
+	let fire = new Fire();
+	let resourceURI;
+
+	try {
+		const userId = req.headers.authorization.uid; //AGREGAR VERIFICACIÓN DE USUARIO
+		resourceURI = await fire.getResourceURI("profiles/user_" + userId, "write", `image/${req.params.type}`);
+	
+	} catch (error) {
+		reply.send(error);
+	}
+
+	reply.code(200).send({"uri": resourceURI});
 };
