@@ -179,7 +179,7 @@ exports.getWriteURL = async (req, reply) => {
 	let resourceURI;
 
 	try {
-		resourceURI = await fire.getResourceURI("songs/song_" + req.params.song_id, "write", `audio/${req.params.type}`);
+		resourceURI = await fire.getResourceURI("songs/song_" + req.params.song_id, "write", `audio/${req.query.type}`);
 	
 	} catch (error) {
 		reply.send(error);

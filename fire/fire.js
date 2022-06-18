@@ -37,7 +37,7 @@ class Fire {
 			version: "v4",
 			action: action,
 			expires: Date.now() + 1000 * 60 * 15,
-			contentType: type
+			contentType: type,
 		};
 		const [url] = await bucket.file(path).getSignedUrl(urlOptions);
 		return url;

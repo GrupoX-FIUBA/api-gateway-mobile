@@ -147,7 +147,7 @@ exports.getWriteURL = async (req, reply) => {
 	let resourceURI;
 
 	try {
-		resourceURI = await fire.getResourceURI("albums/album_" + req.params.album_id, "write", `image/${req.params.type}`);
+		resourceURI = await fire.getResourceURI("albums/album_" + req.params.album_id, "write", `image/${req.query.type}`);
 	
 	} catch (error) {
 		reply.send(error);
