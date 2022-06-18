@@ -29,11 +29,12 @@ exports.getSongs = async (req, reply) => {
 				subscription__gte: req.query.subscription__gte
 			}
 		})).data;
+		const songs = (req.query.blockeds !== 'true') ? response.filter(song => !song.blocked) : response;
 		const users = (await getAllUsers());
-		response.forEach(song => {
+		songs.forEach(song => {
 			song.author = users.find(user => user.uid === song.artist_id);
 		});
-		reply.send(response);
+		reply.send(songs);
 	} catch(error) {
 		console.log(error);
 	};

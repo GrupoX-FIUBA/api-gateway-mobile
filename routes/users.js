@@ -67,6 +67,12 @@ const routes = [
 					user_id: { type: "string" },
 				}
 			},
+			query: {
+				type: "object",
+				properties: {
+					disabled: { type: "string" },
+				}
+			},
 		}
 	}, {
 		method: "PATCH",

@@ -10,13 +10,15 @@ exports.userAuthentication = async (request, reply) => {
 		try{
 		const bearerToken = request.headers["authorization"];
 		const token = bearerToken.split(" ")[1];
-			const response = await axios_auth.post(path, null, {
+			const response = (await axios_auth.post(path, null, {
 				params: {
 					id_token: token,
 				}
-			})
+			})).data
+			if(response.disabled)
+				throw 'User is disabled';
 			delete request.headers["authorization"];
-			request.headers.authorization = response.data;
+			request.headers.authorization = response;
 		}
 		catch(error) {
 			reply.code(401).send({ detail: "Permission denied" });
