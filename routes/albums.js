@@ -90,6 +90,26 @@ const routes = [
 				}
 			},
 		}
+	}, {
+		method: "GET",
+		url: "/albums/writeuri/:album_id",
+		handler: controller.getWriteURL,
+		schema: {
+			description: "Get an album image write URI",
+			tags: ["Album"],
+			params: {
+				type: "object",
+				properties: {
+					album_id: { type: "string" },
+				}
+			},
+			query: {
+				type: "object",
+				properties: {
+					type: { type: "string" },
+				}
+			},
+		}
 	}
 ];
 

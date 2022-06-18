@@ -133,6 +133,26 @@ const routes = [
 				}
 			},
 		}
+	}, {
+		method: "GET",
+		url: "/songs/writeuri/:song_id",
+		handler: controller.getWriteURL,
+		schema: {
+			description: "Get a song MP3 Write URI",
+			tags: ["Song"],
+			params: {
+				type: "object",
+				properties: {
+					song_id: { type: "string" },
+				}
+			},
+			query: {
+				type: "object",
+				properties: {
+					type: { type: "string" },
+				}
+			},
+		}
 	}
 ];
 

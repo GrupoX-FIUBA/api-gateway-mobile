@@ -135,7 +135,23 @@ exports.getDownloadURL = async (req, reply) => {
 	let resourceURI;
 
 	try {
-		resourceURI = await fire.getResourceURI("albums/album_" + req.params.album_id);
+		if(!(await fire.objectExists("albums/album_" + req.params.album_id)))
+			reply.send({uri:null});
+		else{
+			resourceURI = await fire.getResourceURI("albums/album_" + req.params.album_id, 'read');
+			reply.code(200).send({"uri": resourceURI});
+		}
+	} catch (error) {
+		reply.send(error);
+	}
+};
+
+exports.getWriteURL = async (req, reply) => {
+	let fire = new Fire();
+	let resourceURI;
+
+	try {
+		resourceURI = await fire.getResourceURI("albums/album_" + req.params.album_id, 'write', `audio/${req.params.type}`);
 	
 	} catch (error) {
 		reply.send(error);

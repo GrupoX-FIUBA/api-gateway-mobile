@@ -32,14 +32,20 @@ class Fire {
 		this.storage = getStorage(this.firebaseApp);
 	}
 
-	async getResourceURI(path) {
+	async getResourceURI(path, action, type) {
 		var urlOptions = {
 			version: "v4",
-			action: "read",
-			expires: Date.now() + 1000 * 60 * 2, // 2 minutes
+			action: action,
+			expires: Date.now() + 1000 * 60 * 15,
+			contentType: type
 		};
 		const [url] = await bucket.file(path).getSignedUrl(urlOptions);
 		return url;
+	}
+
+	async objectExists(path) {
+		const [exists] = await bucket.file(path).exists();
+		return exists;
 	}
 }
 
