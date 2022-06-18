@@ -1,7 +1,5 @@
 const axios_songs = require("axios").create();
 const Fire = require("../fire/fire.js").Fire;
-const base64 = require("base-64");
-const jwt_decode = require("jwt-decode");
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
@@ -63,8 +61,7 @@ exports.createSong = async (req, reply) => {
 
 	const fireURI = "null"; //HACER PATCH CUANDO SE CARGA EL MP3
 	try{
-		const token = jwt_decode(req.headers.authorization);
-		const userId = token["user_id"];
+		const userId = req.headers.authorization.uid;
 		const response = (await axios_songs.post(path, {
 			title: req.body.title,
 			description: req.body.description,
@@ -82,6 +79,18 @@ exports.createSong = async (req, reply) => {
 
 exports.deleteSong = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + req.params.song_id;
+	const song = await axios_songs.get(path)
+		.then(response => {
+			return response;
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+
+	if (song.data.artist_id != req.headers.authorization.uid) {
+		return reply.code(403).send({ detail: "Song deletion not allowed" });
+	}
+
 	axios_songs.delete(path)
 		.then(response => {
 			reply.send(response.data);
@@ -93,7 +102,18 @@ exports.deleteSong = async (req, reply) => {
 
 exports.editSong = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + req.params.song_id;
-	
+	const song = await axios_songs.get(path)
+		.then(response => {
+			return response;
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+
+	if (song.data.artist_id != req.headers.authorization.uid) {
+		return reply.code(403).send({ detail: "Song edition not allowed" });
+	}
+
 	axios_songs.patch(path, {
 		title: req.body.title,
 		description: req.body.description,
@@ -138,46 +158,6 @@ exports.disableSong = async (req, reply) => {
 		});
 };
 
-
-exports.getSongMP3 = async (req, reply) => {
-	let fire = new Fire();
-	let bytes, encodedBytes;
-	const fireURI = "songs/song_" + req.params.song_id;
-
-	try {
-		bytes = await fire.downloadBytes(fireURI);
-		encodedBytes = base64.encode(bytes);
-
-	} catch (error) {
-		reply.send(error);
-	}
-
-	reply.code(200).send({"file": encodedBytes});
-	
-};
-
-exports.createSongMP3 = async (req, reply) => {
-	let fire = new Fire();
-	let file = req.body.file;
-
-	try {
-		const byteCharacters = base64.decode(file);
-		
-		const byteNumbers = new Array(byteCharacters.length);
-		for (let i = 0; i < byteCharacters.length; i++) {
-			byteNumbers[i] = byteCharacters.charCodeAt(i);
-		}
-
-		const byteArray = new Uint8Array(byteNumbers);
-		fire.uploadBytes("songs/song_" + req.params.song_id, byteArray);
-	
-	} catch (error) {
-		reply.send(error);
-	}
-
-	reply.code(200).send({"status": "File uploaded"});
-};
-
 exports.getDownloadURL = async (req, reply) => {
 	let fire = new Fire();
 	let resourceURI;
@@ -186,7 +166,7 @@ exports.getDownloadURL = async (req, reply) => {
 		if(!(await fire.objectExists("songs/song_" + req.params.song_id)))
 			reply.send({uri:null});
 		else{
-			resourceURI = await fire.getResourceURI("songs/song_" + req.params.song_id, 'read');
+			resourceURI = await fire.getResourceURI("songs/song_" + req.params.song_id, "read");
 			reply.code(200).send({"uri": resourceURI});
 		}
 	} catch (error) {
@@ -199,7 +179,7 @@ exports.getWriteURL = async (req, reply) => {
 	let resourceURI;
 
 	try {
-		resourceURI = await fire.getResourceURI("songs/song_" + req.params.song_id, 'write', `audio/${req.params.type}`);
+		resourceURI = await fire.getResourceURI("songs/song_" + req.params.song_id, "write", `audio/${req.params.type}`);
 	
 	} catch (error) {
 		reply.send(error);

@@ -22,7 +22,7 @@ function build() {
 	app.register(require("fastify-swagger"), {
 		routePrefix: "/docs",
 		exposeRoute: true,
-		swagger: {
+		openapi: {
 			info: {
 				title: "API Gateway Mobile",
 				description: "BFF API Documentation",
@@ -33,6 +33,22 @@ function build() {
 				url: "https://github.com/GrupoX-FIUBA/api-gateway-mobile",
 				description: "Find more info here"
 			},
+
+			components: {
+				securitySchemes: {
+					AccessTokenHeader: {
+						type: "apiKey",
+						name: "authorization",
+						in: "header",
+					},
+				},
+			},
+
+			security: [
+				{
+					AccessTokenHeader: [],
+				},
+			],
 		}
 	}).register(require("@fastify/cors"), () => {
 		return (req, callback) => {
@@ -50,7 +66,6 @@ function build() {
 	});
 
 	app.addHook("preValidation", auth.userAuthentication);
-	app.addHook("preSerialization", auth.updateResponse);
 
 	// Here are setted the routes
 	const songRoutes = require("./routes/songs");

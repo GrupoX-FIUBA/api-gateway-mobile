@@ -18,9 +18,9 @@ const getAllUsers = async (params) => {
 	const path = USERS_SERVICE_URL + USERS_PREFIX;
 	const response = await axios_users.get(path, {
 		params: params
-	})
+	});
 	return response.data;
-}
+};
 
 exports.getAllUsers = getAllUsers;
 
@@ -33,8 +33,8 @@ exports.getUsers = async (req, reply) => {
 		reply.send(response);
 	}
 	catch(error){
-		console.log(error)
-		reply.send(error)
+		console.log(error);
+		reply.send(error);
 	}
 };
 
@@ -47,8 +47,8 @@ exports.getUserById = async (req, reply) => {
 		reply.send(response.find(user => user.id === req.params.user_id));
 	}
 	catch(error){
-		console.log(error)
-		reply.send(error)
+		console.log(error);
+		reply.send(error);
 	}
 };
 

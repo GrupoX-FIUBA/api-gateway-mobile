@@ -1,5 +1,4 @@
 const axios_playlists = require("axios").create();
-const jwt_decode = require("jwt-decode");
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
@@ -41,8 +40,7 @@ exports.getPlaylistById = async (req, reply) => {
 exports.createPlaylist = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX;
 	try{
-		const token = jwt_decode(req.headers.authorization);
-		const userId = token['user_id'];
+		const userId = req.headers.authorization.uid;
 		const response = (await axios_playlists.post(path, {
 			title: req.body.title,
 			description: req.body.description,

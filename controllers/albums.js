@@ -1,6 +1,5 @@
 const axios_albums = require("axios").create();
 const Fire = require("../fire/fire.js").Fire;
-const jwt_decode = require("jwt-decode");
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
@@ -48,9 +47,8 @@ exports.getAlbumById = async (req, reply) => {
 
 exports.createAlbum = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX;
-	try{
-		const token = jwt_decode(req.headers.authorization);
-		const userId = token["user_id"];
+	try {
+		const userId = req.headers.authorization.uid;
 		const response = (await axios_albums.post(path, {
 			title: req.body.title,
 			description: req.body.description,
@@ -77,8 +75,7 @@ exports.deleteAlbumById = async (req, reply) => {
 	const albumPath = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
 	try{
 		const album = (await axios_albums.get(albumPath)).data;
-		const token = jwt_decode(req.headers.authorization);
-		const userId = token["user_id"]; //AGREGAR VERIFICACIÓN DE USUARIO
+		const userId = req.headers.authorization.uid; //AGREGAR VERIFICACIÓN DE USUARIO
 		if(album.artist_id !== userId)
 			throw "Forbidden";
 		const response = (await axios_albums.delete(path)).data;
@@ -93,8 +90,7 @@ exports.editAlbumById = async (req, reply) => {
 	const albumPath = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
 	try{
 		const album = (await axios_albums.get(albumPath)).data;
-		const token = jwt_decode(req.headers.authorization);
-		const userId = token["user_id"]; //AGREGAR VERIFICACIÓN DE USUARIO
+		const userId = req.headers.authorization.uid; //AGREGAR VERIFICACIÓN DE USUARIO
 		if(album.artist_id !== userId)
 			throw "Forbidden";
 		const response = (await axios_albums.patch(path, {
@@ -138,7 +134,7 @@ exports.getDownloadURL = async (req, reply) => {
 		if(!(await fire.objectExists("albums/album_" + req.params.album_id)))
 			reply.send({uri:null});
 		else{
-			resourceURI = await fire.getResourceURI("albums/album_" + req.params.album_id, 'read');
+			resourceURI = await fire.getResourceURI("albums/album_" + req.params.album_id, "read");
 			reply.code(200).send({"uri": resourceURI});
 		}
 	} catch (error) {
@@ -151,7 +147,7 @@ exports.getWriteURL = async (req, reply) => {
 	let resourceURI;
 
 	try {
-		resourceURI = await fire.getResourceURI("albums/album_" + req.params.album_id, 'write', `audio/${req.params.type}`);
+		resourceURI = await fire.getResourceURI("albums/album_" + req.params.album_id, "write", `audio/${req.params.type}`);
 	
 	} catch (error) {
 		reply.send(error);
