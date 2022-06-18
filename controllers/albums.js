@@ -26,7 +26,7 @@ exports.getAlbums = async (req, reply) => {
 				subscription__gt: req.query.subscription__gt,
 				subscription__gte: req.query.subscription__gte
 			}
-		})).data
+		})).data;
 		const fire = new Fire();
 		for(let i=0; i<response.length; i++){
 			if(!(await fire.objectExists("albums/album_" + response[i].id))){
@@ -39,7 +39,7 @@ exports.getAlbums = async (req, reply) => {
 		reply.send(response);
 	}catch(error) {
 		console.log(error);
-	};
+	}
 };
 
 exports.getAlbumById = async (req, reply) => {

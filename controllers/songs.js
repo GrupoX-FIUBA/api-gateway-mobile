@@ -29,7 +29,7 @@ exports.getSongs = async (req, reply) => {
 				subscription__gte: req.query.subscription__gte
 			}
 		})).data;
-		const songs = (req.query.blockeds !== 'true') ? response.filter(song => !song.blocked) : response;
+		const songs = (req.query.blockeds !== "true") ? response.filter(song => !song.blocked) : response;
 		const users = (await getAllUsers());
 		songs.forEach(song => {
 			song.author = users.find(user => user.uid === song.artist_id);
@@ -37,7 +37,7 @@ exports.getSongs = async (req, reply) => {
 		reply.send(songs);
 	} catch(error) {
 		console.log(error);
-	};
+	}
 };
 
 exports.getGenres = async (req, reply) => {

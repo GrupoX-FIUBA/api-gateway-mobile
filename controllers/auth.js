@@ -8,20 +8,20 @@ exports.userAuthentication = async (request, reply) => {
 	const path = USERS_SERVICE_URL + DECODE_TOKEN_PREFIX;
 	if (!request.url.startsWith("/docs") && process.env.NODE_ENV == "prod") {
 		try{
-		const bearerToken = request.headers["authorization"];
-		const token = bearerToken.split(" ")[1];
+			const bearerToken = request.headers["authorization"];
+			const token = bearerToken.split(" ")[1];
 			const response = (await axios_auth.post(path, null, {
 				params: {
 					id_token: token,
 				}
-			})).data
+			})).data;
 			if(response.disabled)
-				throw 'User is disabled';
+				throw "User is disabled";
 			delete request.headers["authorization"];
 			request.headers.authorization = response;
 		}
 		catch(error) {
 			reply.code(401).send({ detail: "Permission denied" });
-		};
+		}
 	}
 };
