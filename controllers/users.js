@@ -210,7 +210,7 @@ exports.getWriteURL = async (req, reply) => {
 
 	try {
 		const userId = req.headers.authorization.uid; //AGREGAR VERIFICACIÓN DE USUARIO
-		resourceURI = await fire.getResourceURI("profiles/user_" + userId, "write", `image/${req.params.type}`);
+		resourceURI = await fire.getResourceURI("profiles/user_" + userId, "write", `image/${req.query.type}`);
 	
 	} catch (error) {
 		reply.send(error);
