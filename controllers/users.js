@@ -6,11 +6,17 @@ const USERS_SERVICE_URL_HEROKU = "https://spotifiuby-users-service.herokuapp.com
 const USERS_SERVICE_URL = USERS_SERVICE_URL_HEROKU;
 
 const USERS_PREFIX = "users/";
+const USER_PREFIX = "user/";
+const ADMIN_SUFIX = "/admin_status/";
+const NAME_SUFIX = "/update_name/";
+const FOLLOW_PREFIX = "follow/";
+const UNFOLLOW_PREFIX = "unfollow/";
+const ADD_GENRE_PREFIX = "add_genre";
+const DEL_GENRE_PREFIX = "del_genre/";
+const SUBSCRIPTION_SUFIX = "/subscription_status/";
 const REGISTER_PREFIX = "register/";
-const ENABLE_PREFIX = "enable/";
-const DISABLE_PREFIX = "disable/";
+const ENABLE_PREFIX = "disabled_status/";
 const REGISTERED_USERS_PREFIX = "registered_users/";
-const USER_ADMIN_STATUS_PREFIX = "/admin_status";
 
 axios_users.interceptors.request.use(function (config) {
 	config.headers["X-API-Key"] = process.env.USERS_SERVICE_API_KEY;
@@ -43,22 +49,15 @@ exports.getUsers = async (req, reply) => {
 
 exports.getUserById = async (req, reply) => {
 	try{
+		const fire = new Fire();
 		const path = USERS_SERVICE_URL + USERS_PREFIX + req.params.user_id;
 		const response = (await axios_users.get(path)).data;
-		reply.send(response);
-	}
-	catch(error){
-		console.log(error);
-		reply.send(error);
-	}
-};
-
-exports.setUserAdmin = async (req, reply) => {
-	try{
-		const path = USERS_SERVICE_URL + USERS_PREFIX + req.params.user_id + USER_ADMIN_STATUS_PREFIX;
-		const response = (await axios_users.put(path, {
-
-		})).data;
+		if(!(await fire.objectExists("profiles/user_" + req.params.user_id))){
+			response[i].image = null;
+		}else{
+			const resourceURI = await fire.getResourceURI("profiles/user_" + req.params.user_id, "read");
+			response[i].image = resourceURI;
+		}
 		reply.send(response);
 	}
 	catch(error){
@@ -92,8 +91,8 @@ exports.deleteUserById = async (req, reply) => {
 		});
 };
 
-exports.enableUserById = async (req, reply) => {
-	const path = USERS_SERVICE_URL + ENABLE_PREFIX + req.params.user_id;
+exports.updateDisabledStatusById = async (req, reply) => {
+	const path = USERS_SERVICE_URL + ENABLE_PREFIX + req.params.user_id + `?disabled=${req.query.disabled}`;
 	axios_users.patch(path)
 		.then(response => {
 			reply.send(response.data);
@@ -103,9 +102,80 @@ exports.enableUserById = async (req, reply) => {
 		});
 };
 
-exports.disableUserById = async (req, reply) => {
-	const path = USERS_SERVICE_URL + DISABLE_PREFIX + req.params.user_id;
+exports.setSubscriptionById = async (req, reply) => {
+	const path = USERS_SERVICE_URL + USER_PREFIX + req.params.user_id + SUBSCRIPTION_SUFIX +  `?subscription=${req.query.subscription}`;
 	axios_users.patch(path)
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.updateName = async (req, reply) => {
+	const userId = req.headers.authorization.uid;
+	const path = USERS_SERVICE_URL + USER_PREFIX + userId + NAME_SUFIX +  `?name=${req.query.name}`;
+	axios_users.patch(path)
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.grantAdminById = async (req, reply) => {
+	const path = USERS_SERVICE_URL + USER_PREFIX + req.params.user_id + ADMIN_SUFIX +  `?admin=${req.query.admin}`;
+	axios_users.patch(path)
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.followById = async (req, reply) => {
+	const userId = req.headers.authorization.uid;
+	const path = USERS_SERVICE_URL + USERS_PREFIX + FOLLOW_PREFIX  + `?user_id=${userId}&user_id_to_follow=${req.params.user_id}`;
+	axios_users.post(path)
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.unfollowById = async (req, reply) => {
+	const userId = req.headers.authorization.uid;
+	const path = USERS_SERVICE_URL + USERS_PREFIX + UNFOLLOW_PREFIX  + `?user_id=${userId}&user_id_to_unfollow=${req.params.user_id}`;
+	axios_users.post(path)
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.addGenreById = async (req, reply) => {
+	const userId = req.headers.authorization.uid;
+	const path = USERS_SERVICE_URL + USERS_PREFIX + ADD_GENRE_PREFIX  + `?user_id=${userId}&genre_id=${req.params.genre_id}`;
+	axios_users.post(path)
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.deleteGenreById = async (req, reply) => {
+	const userId = req.headers.authorization.uid;
+	const path = USERS_SERVICE_URL + USERS_PREFIX + DEL_GENRE_PREFIX  + `?user_id=${userId}&genre_id=${req.params.genre_id}`;
+	axios_users.post(path)
 		.then(response => {
 			reply.send(response.data);
 		})

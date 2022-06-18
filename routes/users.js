@@ -56,10 +56,10 @@ const routes = [
 		}
 	}, {
 		method: "PATCH",
-		url: "/users/enable/:user_id",
-		handler: controller.enableUserById,
+		url: "/users/disable_status/:user_id",
+		handler: controller.updateDisabledStatusById,
 		schema: {
-			description: "Enable User",
+			description: "Enable/Disable User",
 			tags: ["Users"],
 			params: {
 				type: "object",
@@ -70,15 +70,91 @@ const routes = [
 		}
 	}, {
 		method: "PATCH",
-		url: "/users/disable/:user_id",
-		handler: controller.disableUserById,
+		url: "/users/name",
+		handler: controller.updateName,
 		schema: {
-			description: "Disable User",
+			description: "Update One's Name",
+			tags: ["Users"],
+			query: {
+				type: "object",
+				properties: {
+					name: { type: "string" },
+				}
+			},
+		}
+	}, {
+		method: "PATCH",
+		url: "/users/admin_status/:user_id",
+		handler: controller.grantAdminById,
+		schema: {
+			description: "Update User's Admin Status",
 			tags: ["Users"],
 			params: {
 				type: "object",
 				properties: {
 					user_id: { type: "string" },
+				}
+			},
+			query: {
+				type: "object",
+				properties: {
+					admin: { type: "string" },
+				}
+			},
+		}
+	}, {
+		method: "POST",
+		url: "/users/follow/:user_id",
+		handler: controller.followById,
+		schema: {
+			description: "Follow a user",
+			tags: ["Users"],
+			params: {
+				type: "object",
+				properties: {
+					user_id: { type: "string" },
+				}
+			},
+		}
+	}, {
+		method: "POST",
+		url: "/users/unfollow/:user_id",
+		handler: controller.unfollowById,
+		schema: {
+			description: "Unfollow a user",
+			tags: ["Users"],
+			params: {
+				type: "object",
+				properties: {
+					user_id: { type: "string" },
+				}
+			},
+		}
+	}, {
+		method: "POST",
+		url: "/users/liked_genre/:genre_id",
+		handler: controller.addGenreById,
+		schema: {
+			description: "Like a genre",
+			tags: ["Users"],
+			params: {
+				type: "object",
+				properties: {
+					genre_id: { type: "string" },
+				}
+			},
+		}
+	}, {
+		method: "DELETE",
+		url: "/users/liked_genre/:genre_id",
+		handler: controller.deleteGenreById,
+		schema: {
+			description: "Delete a previously liked genre",
+			tags: ["Users"],
+			params: {
+				type: "object",
+				properties: {
+					genre_id: { type: "string" },
 				}
 			},
 		}
@@ -96,7 +172,7 @@ const routes = [
 		handler: controller.getWriteURL,
 		schema: {
 			description: "Get an user image profile write URI",
-			tags: ["Album"],
+			tags: ["Users"],
 			query: {
 				type: "object",
 				properties: {

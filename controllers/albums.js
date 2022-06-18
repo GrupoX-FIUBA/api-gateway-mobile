@@ -14,24 +14,32 @@ axios_albums.interceptors.request.use(function (config) {
 
 exports.getAlbums = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX;
-	axios_albums.get(path, {
-		params: {
-			skip: req.query.skip,
-			limit: req.query.limit,
-			artist_id: req.query.artist_id,
-			subscription: req.query.subscription,
-			subscription__lt: req.query.subscription__lt,
-			subscription__lte: req.query.subscription__lte,
-			subscription__gt: req.query.subscription__gt,
-			subscription__gte: req.query.subscription__gte
+	try{
+		const response = (await axios_albums.get(path, {
+			params: {
+				skip: req.query.skip,
+				limit: req.query.limit,
+				artist_id: req.query.artist_id,
+				subscription: req.query.subscription,
+				subscription__lt: req.query.subscription__lt,
+				subscription__lte: req.query.subscription__lte,
+				subscription__gt: req.query.subscription__gt,
+				subscription__gte: req.query.subscription__gte
+			}
+		})).data
+		const fire = new Fire();
+		for(let i=0; i<response.length; i++){
+			if(!(await fire.objectExists("albums/album_" + response[i].id))){
+				response[i].image = null;
+			}else{
+				const resourceURI = await fire.getResourceURI("albums/album_" + response[i].id, "read");
+				response[i].image = resourceURI;
+			}
 		}
-	})
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			console.log(error);
-		});
+		reply.send(response);
+	}catch(error) {
+		console.log(error);
+	};
 };
 
 exports.getAlbumById = async (req, reply) => {

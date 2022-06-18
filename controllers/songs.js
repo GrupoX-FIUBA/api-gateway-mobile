@@ -1,3 +1,5 @@
+const { getAllUsers } = require("./users.js");
+
 const axios_songs = require("axios").create();
 const Fire = require("../fire/fire.js").Fire;
 
@@ -14,24 +16,27 @@ axios_songs.interceptors.request.use(function (config) {
 
 exports.getSongs = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX;
-	axios_songs.get(path, {
-		params: {
-			skip: req.query.skip,
-			limit: req.query.limit,
-			artist_id: req.query.artist_id,
-			subscription: req.query.subscription,
-			subscription__lt: req.query.subscription__lt,
-			subscription__lte: req.query.subscription__lte,
-			subscription__gt: req.query.subscription__gt,
-			subscription__gte: req.query.subscription__gte
-		}
-	})
-		.then(response => {
-			reply.send(response.data);
-		})
-		.catch(error => {
-			console.log(error);
+	try{
+		const response = (await axios_songs.get(path, {
+			params: {
+				skip: req.query.skip,
+				limit: req.query.limit,
+				artist_id: req.query.artist_id,
+				subscription: req.query.subscription,
+				subscription__lt: req.query.subscription__lt,
+				subscription__lte: req.query.subscription__lte,
+				subscription__gt: req.query.subscription__gt,
+				subscription__gte: req.query.subscription__gte
+			}
+		})).data;
+		const users = (await getAllUsers());
+		response.forEach(song => {
+			song.author = users.find(user => user.uid === song.artist_id);
 		});
+		reply.send(response);
+	} catch(error) {
+		console.log(error);
+	};
 };
 
 exports.getGenres = async (req, reply) => {
