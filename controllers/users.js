@@ -37,7 +37,9 @@ exports.getUsers = async (req, reply) => {
 	try{
 		const response = await getAllUsers({
 			skip: req.query.skip,
-			limit: req.query.limit
+			limit: req.query.limit,
+			name_filter: req.query.name_filter,
+			email_filter: req.query.email_filter,
 		});
 		const fire = new Fire();
 		for(let i=0; i<response.length; i++){

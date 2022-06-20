@@ -13,7 +13,9 @@ const routes = [
 				type: "object",
 				properties: {
 					skip: { type: "integer", default: 0 },
-					limit: { type: "integer", default: 100 }
+					limit: { type: "integer", default: 100 },
+					name_filter: { type: "string" },
+					email_filter: { type: "string" }
 				}
 			},
 		}
