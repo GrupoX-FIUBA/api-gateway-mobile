@@ -3,6 +3,26 @@ const userRegister = require("../schemas/users").userRegister;
 
 const routes = [
 	{
+		method: "POST",
+		url: "/new_user/:user_id",
+		handler: controller.newUser,
+		schema: {
+			description: "Register a user",
+			tags: ["Users"],
+			params: {
+				type: "object",
+				properties: {
+					user_id: { type: "string" },
+				}
+			},
+			query: {
+				type: "object",
+				properties: {
+					subscription: { type: "string" },
+				}
+			},
+		}
+	}, {
 		method: "GET",
 		url: "/users",
 		handler: controller.getUsers,

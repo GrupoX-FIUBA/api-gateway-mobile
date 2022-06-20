@@ -91,6 +91,19 @@ exports.registerUser = async (req, reply) => {
 		});
 };
 
+exports.newUser = async (req, reply) => {
+	const path = USERS_SERVICE_URL + USERS_PREFIX + req.params.user_id;
+	try{
+		await axios_users.put(path, {});
+		const subPath = USERS_SERVICE_URL + USER_PREFIX + req.params.user_id + SUBSCRIPTION_SUFIX +  `?subscription=${req.query.subscription}`;
+		const response = (await axios_users.patch(subPath)).data
+		reply.send(response);
+	} catch(error) {
+		console.log(error);
+		reply.send(error);
+	}
+};
+
 exports.deleteUserById = async (req, reply) => {
 	const path = USERS_SERVICE_URL + req.params.user_id;
 	axios_users.delete(path)
