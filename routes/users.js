@@ -208,6 +208,20 @@ const routes = [
 				}
 			},
 		}
+	}, {
+		method: "GET",
+		url: "/user_is_registered/:user_id",
+		handler: controller.getUserIsRegistered,
+		schema: {
+			description: "Get if a user is registered",
+			tags: ["Users"],
+			params: {
+				type: "object",
+				properties: {
+					user_id: { type: "string" },
+				}
+			},
+		}
 	}
 ];
 

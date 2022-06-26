@@ -233,3 +233,14 @@ exports.getWriteURL = async (req, reply) => {
 
 	reply.code(200).send({"uri": resourceURI});
 };
+
+exports.getUserIsRegistered = async (req, reply) => {
+	const path = USERS_SERVICE_URL + USERS_PREFIX + req.params.user_id;
+	try{
+		await axios_users.get(path);
+		reply.send('Yes');
+	}
+	catch(error){
+		reply.send('No');
+	}
+};
