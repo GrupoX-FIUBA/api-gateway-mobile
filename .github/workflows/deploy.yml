@@ -19,6 +19,8 @@ jobs:
         env:
           HD_MUSIC_SERVICE_API_KEY: ${{ secrets.MUSIC_SERVICE_API_KEY }}
           HD_USERS_SERVICE_API_KEY: ${{ secrets.USERS_SERVICE_API_KEY }}
+          HD_PAYMENTS_SERVICE_API_KEY: ${{ secrets.PAYMENTS_SERVICE_API_KEY }}
+          HD_FEEDBACK_SERVICE_API_KEY: ${{ secrets.FEEDBACK_SERVICE_API_KEY }}
           HD_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           HD_DD_API_KEY: ${{ secrets.DD_API_KEY }}
           HD_NODE_ENV: prod
