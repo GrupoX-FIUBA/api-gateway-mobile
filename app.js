@@ -74,6 +74,7 @@ function build() {
 	const serverRoutes = require("./routes/server");
 	const usersRoutes = require("./routes/users");
 	const walletRoutes = require("./routes/wallet");
+	const feedbackRoutes = require("./routes/feedback");
 
 	songRoutes.forEach((route) => app.route(route));
 	albumRoutes.forEach((route) => app.route(route));
@@ -81,6 +82,7 @@ function build() {
 	serverRoutes.forEach((route) => app.route(route));
 	usersRoutes.forEach((route) => app.route(route));
 	walletRoutes.forEach((route) => app.route(route));
+	feedbackRoutes.forEach((route) => app.route(route));
 	
 	const songSchemas = require("./schemas/songs").schemas;
 	const albumSchemas = require("./schemas/albums").schemas;

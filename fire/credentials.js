@@ -12,13 +12,3 @@ const firebaseCredentials = {
 };
 
 module.exports.firebaseCredentials = firebaseCredentials;
-  
-
-
-
-
-
-
-
-
-

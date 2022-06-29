@@ -96,7 +96,7 @@ exports.newUser = async (req, reply) => {
 	try{
 		await axios_users.put(path, {});
 		const subPath = USERS_SERVICE_URL + USER_PREFIX + req.params.user_id + SUBSCRIPTION_SUFIX +  `?subscription=${req.query.subscription}`;
-		const response = (await axios_users.patch(subPath)).data
+		const response = (await axios_users.patch(subPath)).data;
 		reply.send(response);
 	} catch(error) {
 		console.log(error);
@@ -238,9 +238,9 @@ exports.getUserIsRegistered = async (req, reply) => {
 	const path = USERS_SERVICE_URL + USERS_PREFIX + req.params.user_id;
 	try{
 		await axios_users.get(path);
-		reply.send('Yes');
+		reply.send("Yes");
 	}
 	catch(error){
-		reply.send('No');
+		reply.send("No");
 	}
 };
