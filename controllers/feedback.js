@@ -44,8 +44,6 @@ exports.writeComment = async (req, reply) => {
 
 exports.deleteComment = async (req, reply) => {
 	const path = FEEDBACK_SERVICE_URL + COMMENTS_PREFIX + req.params.comment_id;
-
-	console.log(path);
 	
 	const comment = await axios_feedback.get(path, {
 	
