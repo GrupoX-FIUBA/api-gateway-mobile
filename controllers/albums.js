@@ -83,7 +83,7 @@ exports.deleteAlbumById = async (req, reply) => {
 	const albumPath = MUSIC_SERVICE_URL + ALBUMS_PREFIX + req.params.album_id;
 	try{
 		const album = (await axios_albums.get(albumPath)).data;
-		const userId = req.headers.authorization.uid; //AGREGAR VERIFICACIÓN DE USUARIO
+		const userId = req.headers.authorization.uid;
 		if(album.artist_id !== userId)
 			throw "Forbidden";
 		const response = (await axios_albums.delete(path)).data;

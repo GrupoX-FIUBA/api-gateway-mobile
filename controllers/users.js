@@ -23,6 +23,7 @@ axios_users.interceptors.request.use(function (config) {
 	return config;
 });
 
+
 const getAllUsers = async (params) => {
 	const path = USERS_SERVICE_URL + USERS_PREFIX;
 	const response = await axios_users.get(path, {
@@ -57,6 +58,14 @@ exports.getUsers = async (req, reply) => {
 		reply.send(error);
 	}
 };
+
+exports.getImAdmin = async (req, reply) => {
+	if(req.headers.authorization.admin !== true){
+		reply.code(403).send({ detail: "User is not admin" });
+		return;
+	}
+	reply.send("Yes");
+}
 
 exports.getUserById = async (req, reply) => {
 	try{
@@ -106,6 +115,11 @@ exports.newUser = async (req, reply) => {
 
 exports.deleteUserById = async (req, reply) => {
 	const path = USERS_SERVICE_URL + req.params.user_id;
+
+	if(req.headers.authorization.admin !== true){
+		return reply.code(403).send({ detail: "User edition not allowed" });
+	}
+
 	axios_users.delete(path)
 		.then(response => {
 			reply.send(response.data);
@@ -117,6 +131,11 @@ exports.deleteUserById = async (req, reply) => {
 
 exports.updateDisabledStatusById = async (req, reply) => {
 	const path = USERS_SERVICE_URL + ENABLE_PREFIX + req.params.user_id + `?disabled=${req.query.disabled}`;
+	
+	if(req.headers.authorization.admin !== true){
+		return reply.code(403).send({ detail: "User edition not allowed" });
+	}
+	
 	axios_users.patch(path)
 		.then(response => {
 			reply.send(response.data);
@@ -139,7 +158,7 @@ exports.setSubscriptionById = async (req, reply) => {
 
 exports.updateName = async (req, reply) => {
 	const userId = req.headers.authorization.uid;
-	const path = USERS_SERVICE_URL + USER_PREFIX + userId + NAME_SUFIX +  `?name=${req.query.name}`;
+	const path = USERS_SERVICE_URL + USER_PREFIX + userId + NAME_SUFIX + `?name=${req.query.name}`;
 	axios_users.patch(path)
 		.then(response => {
 			reply.send(response.data);
@@ -151,6 +170,11 @@ exports.updateName = async (req, reply) => {
 
 exports.grantAdminById = async (req, reply) => {
 	const path = USERS_SERVICE_URL + USER_PREFIX + req.params.user_id + ADMIN_SUFIX +  `?admin=${req.query.admin}`;
+	
+	if(req.headers.authorization.admin !== true){
+		return reply.code(403).send({ detail: "User edition not allowed" });
+	}
+	
 	axios_users.patch(path)
 		.then(response => {
 			reply.send(response.data);

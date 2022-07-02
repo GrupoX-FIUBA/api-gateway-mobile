@@ -65,7 +65,7 @@ exports.getSong = async (req, reply) => {
 exports.createSong = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX;
 
-	const fireURI = "null"; //HACER PATCH CUANDO SE CARGA EL MP3
+	const fireURI = "null";
 	try{
 		const userId = req.headers.authorization.uid;
 		const response = (await axios_songs.post(path, {
@@ -139,6 +139,10 @@ exports.editSong = async (req, reply) => {
 exports.enableSong = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + req.params.song_id;
 	
+	if(req.headers.authorization.admin !== true){
+		return reply.code(403).send({ detail: "Song edition not allowed" });
+	}
+
 	axios_songs.patch(path, {
 		blocked: false
 	})
@@ -152,6 +156,10 @@ exports.enableSong = async (req, reply) => {
 
 exports.disableSong = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX + req.params.song_id;
+	
+	if(req.headers.authorization.admin !== true){
+		return reply.code(403).send({ detail: "Song edition not allowed" });
+	}
 	
 	axios_songs.patch(path, {
 		blocked: true

@@ -222,6 +222,14 @@ const routes = [
 				}
 			},
 		}
+	}, {
+		method: "GET",
+		url: "/user_is_admin",
+		handler: controller.getImAdmin,
+		schema: {
+			description: "Get if a user is an admin",
+			tags: ["Users"]
+		}
 	}
 ];
 
