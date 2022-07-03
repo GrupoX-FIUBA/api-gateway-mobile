@@ -1,3 +1,5 @@
+const { getAllUsers } = require("./users");
+
 const axios_playlists = require("axios").create();
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
@@ -20,6 +22,10 @@ exports.getPlaylists = async (req, reply) => {
 				limit: req.query.limit
 			}
 		})).data;
+		const users = (await getAllUsers());
+		response.forEach(play => {
+			play.author = users.find(user => user.uid === play.owner_id);
+		});
 		reply.send(response);
 	} catch(error) {
 		console.log(error);
