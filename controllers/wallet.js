@@ -41,7 +41,9 @@ exports.getUserWallet = async (req, reply) => {
 		});
 
 	reply.send({"address": wallet_info.publicKey,
-		"balance": balance_info});
+		"balance": balance_info,
+		"subscription": wallet_info.subscription,
+		"expiration": wallet_info.expiration});
 };
 
 exports.getUserDeposits = async (req, reply) => {
