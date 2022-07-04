@@ -6,6 +6,7 @@ const FEEDBACK_SERVICE_URL = FEEDBACK_SERVICE_URL_HEROKU;
 const COMMENTS_PREFIX = "comments/";
 const OPINIONS_PREFIX = "opinions/";
 const QUALIFICATIONS_PREFIX = "qualifications/";
+const STATS_PREFIX = "stats/";
 
 axios_feedback.interceptors.request.use(function (config) {
 	config.headers["X-API-Key"] = process.env.FEEDBACK_SERVICE_API_KEY;
@@ -120,6 +121,16 @@ exports.writeQualifications = async (req, reply) => {
 		album_id: req.body.album_id,
 		value: req.body.value,
 	}).then(response => {
+		reply.send(response.data);
+	}).catch(error => {
+		reply.send(error);
+	});
+};
+
+exports.getAlbumQualificationsStats = async (req, reply) => {
+	const path = FEEDBACK_SERVICE_URL + QUALIFICATIONS_PREFIX + STATS_PREFIX + req.params.album_id;
+
+	await axios_feedback.get(path).then(response => {
 		reply.send(response.data);
 	}).catch(error => {
 		reply.send(error);

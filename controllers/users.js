@@ -65,7 +65,7 @@ exports.getImAdmin = async (req, reply) => {
 		return;
 	}
 	reply.send("Yes");
-}
+};
 
 exports.getUserById = async (req, reply) => {
 	try{

@@ -108,7 +108,21 @@ const routes = [
 				}
 			},
 		}
-	},
+	},{
+		method: "GET",
+		url: "/qualifications/stats/:album_id",
+		handler: controller.getAlbumQualificationsStats,
+		schema: {
+			description: "Get album qualifications stats",
+			tags: ["Feedback"],
+			params: {
+				type: "object",
+				properties: {
+					album_id: { type: "integer" },
+				}
+			},
+		}
+	}
 ];
 
 module.exports = routes;
