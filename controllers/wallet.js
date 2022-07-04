@@ -9,6 +9,13 @@ const DEPOSITS_PREFIX = "deposit";
 const PAYMENTS_PREFIX = "payment";
 const EXTRACTIONS_PREFIX = "extraction";
 const DONATIONS_PREFIX = "donation";
+const SUBSCRIPTIONS_PREFIX = "subscriptions";
+
+const nodeSchedule = require("node-schedule");
+nodeSchedule.scheduleJob("0 0 16 * * *", function(){	// Everyday at 16:00 UTC (19:00 Arg)
+	triggerSubscriptionUpdate();
+	console.log("asd");
+});
 
 axios_payments.interceptors.request.use(function (config) {
 	config.headers["X-API-Key"] = process.env.PAYMENTS_SERVICE_API_KEY;
@@ -52,19 +59,6 @@ exports.getUserDeposits = async (req, reply) => {
 		.catch(error => {
 			reply.send(error);
 		});
-};
-
-exports.makeADeposit = async (req, reply) => {
-	const path = PAYMENTS_SERVICE_URL + DEPOSITS_PREFIX;
-
-	const userId = req.headers.authorization.uid;
-	const response = (await axios_payments.post(path, {
-		senderId: userId,
-		amountInEthers: req.body.amountInEthers,
-
-	})).data;
-
-	reply.send(response);
 };
 
 exports.getUserPayments = async (req, reply) => {
@@ -129,4 +123,36 @@ exports.getUserDonations = async (req, reply) => {
 		});
 };
 
+async function triggerSubscriptionUpdate() {
+	const path = PAYMENTS_SERVICE_URL + SUBSCRIPTIONS_PREFIX;
+	await axios_payments.patch(path, {}).then(response => {
+		console.log(response.data);
+	}).catch(error => {
+		console.error(error);
+	});
+}
 
+exports.getSubscriptionsPrices = async (req, reply) => {
+	const path = PAYMENTS_SERVICE_URL + SUBSCRIPTIONS_PREFIX;
+	axios_payments.get(path)
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.paySubscription = async (req, reply) => {
+	const path = PAYMENTS_SERVICE_URL + SUBSCRIPTIONS_PREFIX;
+	axios_payments.post(path, {
+		subscription: req.body.subscription,
+		user_id: req.headers.authorization.uid,
+	})
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};

@@ -25,20 +25,6 @@ const routes = [
 			},
 		}
 	},{
-		method: "POST",
-		url: "/deposit",
-		handler: controller.makeADeposit,
-		schema: {
-			description: "Make a new deposit",
-			tags: ["Payments"],
-			body: {
-				type: "object",
-				properties: {
-					amountInEthers: { type: "string" },
-				}
-			}
-		}
-	},{
 		method: "GET",
 		url: "/payment",
 		handler: controller.getUserPayments,
@@ -97,6 +83,28 @@ const routes = [
 					limit: { type: "integer", default: 100 }
 				}
 			},
+		}
+	}, {
+		method: "GET",
+		url: "/subscriptions",
+		handler: controller.getSubscriptionsPrices,
+		schema: {
+			description: "Get subscriptions prices",
+			tags: ["Payments"],
+		}
+	}, {
+		method: "POST",
+		url: "/subscriptions",
+		handler: controller.paySubscription,
+		schema: {
+			description: "Get subscriptions prices",
+			tags: ["Payments"],
+			body: {
+				type: "object",
+				properties: {
+					subscription: { type: "string" },
+				}
+			}
 		}
 	}
 ];
