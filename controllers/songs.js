@@ -1,11 +1,12 @@
-const { getAllUsers } = require("./users.js");
-
 const axios_songs = require("axios").create();
 const Fire = require("../fire/fire.js").Fire;
 
 const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
+const USERS_SERVICE_URL_HEROKU = "https://spotifiuby-users-service.herokuapp.com/";
+const USERS_SERVICE_URL = USERS_SERVICE_URL_HEROKU;
 
+const USERS_PREFIX = "users/";
 const SONGS_PREFIX = "songs/";
 const GENRES_PREFIX = "genres/";
 
@@ -16,6 +17,7 @@ axios_songs.interceptors.request.use(function (config) {
 
 exports.getSongs = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX;
+	const user_path = USERS_SERVICE_URL + USERS_PREFIX; 
 	try{
 		const response = (await axios_songs.get(path, {
 			params: {
@@ -30,10 +32,14 @@ exports.getSongs = async (req, reply) => {
 			}
 		})).data;
 		const songs = (req.query.blockeds !== "true") ? response.filter(song => !song.blocked) : response;
-		const users = (await getAllUsers());
-		songs.forEach(song => {
-			song.author = users.find(user => user.uid === song.artist_id);
-		});
+		for (var i = 0; i < songs.length; i++) {
+			var author = axios_songs.get(user_path + songs[i].artist_id);
+			songs[i].author = author;
+		}
+
+		for (var j = 0; j < songs.length; j++) {
+			songs[j].author = (await songs[j].author).data;
+		}
 		reply.send(songs);
 	} catch(error) {
 		console.log(error);
