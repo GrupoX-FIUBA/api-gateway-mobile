@@ -14,7 +14,6 @@ const SUBSCRIPTIONS_PREFIX = "subscriptions";
 const nodeSchedule = require("node-schedule");
 nodeSchedule.scheduleJob("0 0 16 * * *", function(){	// Everyday at 16:00 UTC (19:00 Arg)
 	triggerSubscriptionUpdate();
-	console.log("asd");
 });
 
 axios_payments.interceptors.request.use(function (config) {
