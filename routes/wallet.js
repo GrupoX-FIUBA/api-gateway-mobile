@@ -84,6 +84,21 @@ const routes = [
 				}
 			},
 		}
+	},{
+		method: "POST",
+		url: "/donation",
+		handler: controller.makeADonation,
+		schema: {
+			description: "Make a donation",
+			tags: ["Payments"],
+			body: {
+				type: "object",
+				properties: {
+					amountInEthers: { type: "string" },
+					receiver_id: {type: "string"}
+				}
+			}
+		}
 	}, {
 		method: "GET",
 		url: "/subscriptions",

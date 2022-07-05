@@ -92,6 +92,19 @@ exports.makeAnExtraction = async (req, reply) => {
 	reply.send(response);
 };
 
+exports.makeADonation = async (req, reply) => {
+	const path = PAYMENTS_SERVICE_URL + DONATIONS_PREFIX;
+	const userId = req.headers.authorization.uid;
+	const response = (await axios_payments.post(path, {
+		sender_id: userId,
+		receiver_id: req.body.receiver_id,
+		amountInEthers: req.body.amountInEthers,
+
+	})).data;
+
+	reply.send(response);
+};
+
 exports.getUserExtractions = async (req, reply) => {
 	const path = PAYMENTS_SERVICE_URL + EXTRACTIONS_PREFIX + "/" + req.headers.authorization.uid;
 	axios_payments.get(path, {
