@@ -11,6 +11,9 @@ const EXTRACTIONS_PREFIX = "extraction";
 const DONATIONS_PREFIX = "donation";
 const SUBSCRIPTIONS_PREFIX = "subscriptions";
 
+const SENT_PREFIX = "sent/";
+const RECEIVED_PREFIX = "received/";
+
 const nodeSchedule = require("node-schedule");
 nodeSchedule.scheduleJob("0 0 16 * * *", function(){	// Everyday at 16:00 UTC (19:00 Arg)
 	triggerSubscriptionUpdate();
@@ -121,8 +124,24 @@ exports.getUserExtractions = async (req, reply) => {
 		});
 };
 
-exports.getUserDonations = async (req, reply) => {
-	const path = PAYMENTS_SERVICE_URL + DONATIONS_PREFIX + "/" + req.headers.authorization.uid;
+exports.getUserSentDonations = async (req, reply) => {
+	const path = PAYMENTS_SERVICE_URL + DONATIONS_PREFIX + "/" + SENT_PREFIX + req.headers.authorization.uid;
+	axios_payments.get(path, {
+		params: {
+			offset: req.query.offset,
+			limit: req.query.limit,
+		}
+	})
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.getUserReceivedDonations = async (req, reply) => {
+	const path = PAYMENTS_SERVICE_URL + DONATIONS_PREFIX + "/" + RECEIVED_PREFIX + req.headers.authorization.uid;
 	axios_payments.get(path, {
 		params: {
 			offset: req.query.offset,

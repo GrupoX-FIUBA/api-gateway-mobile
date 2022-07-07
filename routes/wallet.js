@@ -71,10 +71,25 @@ const routes = [
 		}
 	}, {
 		method: "GET",
-		url: "/donation",
-		handler: controller.getUserDonations,
+		url: "/donation/sent",
+		handler: controller.getUserSentDonations,
 		schema: {
-			description: "Get user donations information",
+			description: "Get user donations sent information",
+			tags: ["Payments"],
+			query: {
+				type: "object",
+				properties: {
+					offset: { type: "integer", default: 0 },
+					limit: { type: "integer", default: 100 }
+				}
+			},
+		}
+	}, {
+		method: "GET",
+		url: "/donation/received",
+		handler: controller.getUserReceivedDonations,
+		schema: {
+			description: "Get user donations received information",
 			tags: ["Payments"],
 			query: {
 				type: "object",
