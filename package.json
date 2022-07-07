@@ -4,7 +4,8 @@
   "description": "!!!DESCRIPTION!!!",
   "main": "app.js",
   "scripts": {
-    "test": "tap --coverage-report=lcov > coverage.json && codecov"
+    "test": "tap",
+    "posttest": "tap --coverage-report=lcov && codecov"
   },
   "author": "GrupoX",
   "license": "ISC",

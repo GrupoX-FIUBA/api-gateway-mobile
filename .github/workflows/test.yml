@@ -27,7 +27,8 @@ jobs:
       - name: Test
         run: |
           npm i tap
-          npm test
+          npm run test
+          npm run posttest
       - name: Codecov
         uses: codecov/codecov-action@v3
         with:
