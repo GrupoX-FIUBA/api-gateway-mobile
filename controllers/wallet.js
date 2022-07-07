@@ -15,9 +15,12 @@ const SENT_PREFIX = "sent/";
 const RECEIVED_PREFIX = "received/";
 
 const nodeSchedule = require("node-schedule");
-nodeSchedule.scheduleJob("0 0 16 * * *", function(){	// Everyday at 16:00 UTC (19:00 Arg)
-	triggerSubscriptionUpdate();
-});
+
+if (process.env.NODE_ENV === "prod") {
+	nodeSchedule.scheduleJob("0 0 16 * * *", function(){	// Everyday at 16:00 UTC (19:00 Arg)
+		triggerSubscriptionUpdate();
+	});
+}
 
 axios_payments.interceptors.request.use(function (config) {
 	config.headers["X-API-Key"] = process.env.PAYMENTS_SERVICE_API_KEY;
