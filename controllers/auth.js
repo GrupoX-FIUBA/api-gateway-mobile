@@ -1,5 +1,10 @@
 const axios_auth = require("axios").create();
 
+axios_auth.interceptors.request.use(function (config) {
+	config.headers["X-API-Key"] = process.env.USERS_SERVICE_API_KEY;
+	return config;
+});
+
 const USERS_SERVICE_URL = process.env.USERS_SERVICE_URL;
 const DECODE_TOKEN_PREFIX = "decode_token/";
 
