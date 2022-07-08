@@ -2,13 +2,27 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
 
 name: CI
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+    env:
+      MUSIC_SERVICE_API_KEY: ${{ secrets.MUSIC_SERVICE_API_KEY }}
+      USERS_SERVICE_API_KEY: ${{ secrets.USERS_SERVICE_API_KEY }}
+      PAYMENTS_SERVICE_API_KEY: ${{ secrets.PAYMENTS_SERVICE_API_KEY }}
+      FEEDBACK_SERVICE_API_KEY: ${{ secrets.FEEDBACK_SERVICE_API_KEY }}
+      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      DD_API_KEY: ${{ secrets.DD_API_KEY }}
+      NODE_ENV: test
+      PRIVATE_KEY_ID: ${{ secrets.PRIVATE_KEY_ID }}
+      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js
@@ -24,4 +38,9 @@ jobs:
       - name: Test
         run: |
           npm i tap
-          npm test
+          npm run test
+          npm run posttest
+      - name: Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          directory: coverage/

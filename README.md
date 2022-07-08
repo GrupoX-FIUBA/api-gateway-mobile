@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/GrupoX-FIUBA/api-gateway-mobile/branch/main/graph/badge.svg?token=MEW4LULC2H)](https://codecov.io/gh/GrupoX-FIUBA/api-gateway-mobile)
+
 # Mobile API Gateway
 
 API used by the mobile client to interact with the backend.
