@@ -1,6 +1,6 @@
 const axios_payments = require("axios").create();
 
-const PAYMENTS_SERVICE_URL_HEROKU = "https://spotifiuby-payments-service.herokuapp.com/";
+const PAYMENTS_SERVICE_URL_HEROKU = process.env.PAYMENTS_SERVICE_URL;
 const PAYMENTS_SERVICE_URL = PAYMENTS_SERVICE_URL_HEROKU;
 
 const WALLETS_PREFIX = "wallet";

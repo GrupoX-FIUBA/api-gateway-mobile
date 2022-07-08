@@ -2,7 +2,7 @@ const { Fire } = require("../fire/fire");
 
 const axios_users = require("axios").create();
 
-const USERS_SERVICE_URL_HEROKU = "https://spotifiuby-users-service.herokuapp.com/";
+const USERS_SERVICE_URL_HEROKU = process.env.USERS_SERVICE_URL;
 const USERS_SERVICE_URL = USERS_SERVICE_URL_HEROKU;
 
 const USERS_PREFIX = "users/";

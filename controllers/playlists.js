@@ -1,8 +1,8 @@
 const axios_playlists = require("axios").create();
 
-const MUSIC_SERVICE_URL_HEROKU = "https://grupox-music-service.herokuapp.com/";
+const MUSIC_SERVICE_URL_HEROKU = process.env.MUSIC_SERVICE_URL;
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
-const USERS_SERVICE_URL_HEROKU = "https://spotifiuby-users-service.herokuapp.com/";
+const USERS_SERVICE_URL_HEROKU = process.env.USERS_SERVICE_URL;
 const USERS_SERVICE_URL = USERS_SERVICE_URL_HEROKU;
 
 const USERS_PREFIX = "users/";

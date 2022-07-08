@@ -1,6 +1,6 @@
 const axios_auth = require("axios").create();
 
-const USERS_SERVICE_URL = "https://spotifiuby-users-service.herokuapp.com/";
+const USERS_SERVICE_URL = process.env.USERS_SERVICE_URL;
 const DECODE_TOKEN_PREFIX = "decode_token/";
 
 exports.userAuthentication = async (request, reply) => {

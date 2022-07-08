@@ -1,6 +1,6 @@
 const axios_feedback = require("axios").create();
 
-const FEEDBACK_SERVICE_URL_HEROKU = "http://grupox-feedback-service.herokuapp.com/";
+const FEEDBACK_SERVICE_URL_HEROKU = process.env.FEEDBACK_SERVICE_URL;
 const FEEDBACK_SERVICE_URL = FEEDBACK_SERVICE_URL_HEROKU;
 
 const COMMENTS_PREFIX = "comments/";
