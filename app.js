@@ -1,14 +1,14 @@
 "use strict";
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 const tracer = require("dd-trace");
 if (process.env.NODE_ENV === "prod") {
 	tracer.init();
 }
 
 const auth = require("./controllers/auth");
-
-const dotenv = require("dotenv");
-dotenv.config();
 
 const fastify = require("fastify");
 
