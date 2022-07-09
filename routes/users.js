@@ -232,11 +232,17 @@ const routes = [
 		}
 	}, {
 		method: "POST",
-		url: "/newLogin",
-		handler: controller.registerLogin,
+		url: "/notificationToken",
+		handler: controller.setNotificationToken,
 		schema: {
-			description: "Register a new login",
-			tags: ["Users"]
+			description: "Register a new login & set notification token",
+			tags: ["Users"],
+			query: {
+				type: "object",
+				properties: {
+					token: { type: "string" },
+				}
+			},
 		}
 	}, {
 		method: "POST",
