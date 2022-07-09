@@ -16,6 +16,7 @@ const DEL_GENRE_PREFIX = "del_genre/";
 const SUBSCRIPTION_SUFIX = "/subscription_status/";
 const REGISTER_PREFIX = "register/";
 const NEW_LOGIN_PREFIX = "newLogin/";
+const NOTIFICATION_TOKEN_PREFIX = "notificationToken/";
 const NEW_PASSWORD_RESET_PREFIX = "newPasswordReseted/";
 const METRIC_LOGINS_PREFIX = "Logins/";
 const METRIC_PASSWORD_RESET_PREFIX = "passwordsResets/";
@@ -92,6 +93,20 @@ exports.getUserById = async (req, reply) => {
 	}
 };
 
+exports.setNotificationToken = async (req, reply) => {
+	try{
+		const userId = req.headers.authorization.uid;
+		const loginPath = USERS_SERVICE_URL + NEW_LOGIN_PREFIX + `?uid=${userId}`;
+		await axios_users.post(loginPath);
+		const path = USERS_SERVICE_URL + NOTIFICATION_TOKEN_PREFIX + `${userId}?token=${req.query.token}`;
+		await axios_users.post(path);
+		reply.send("OK");
+	}catch(error){
+		console.log(error);
+		reply.code(500).send("Error while logging in");
+	}
+};
+
 exports.registerUser = async (req, reply) => {
 	const path = USERS_SERVICE_URL + REGISTER_PREFIX;
 	axios_users.post(path, {
@@ -104,18 +119,6 @@ exports.registerUser = async (req, reply) => {
 		.catch(error => {
 			reply.send(error);
 		});
-};
-
-exports.registerLogin = async (req, reply) => {
-	const userId = req.headers.authorization.uid;
-	const path = USERS_SERVICE_URL + NEW_LOGIN_PREFIX + `?uid=${userId}`;
-	try{
-		await axios_users.post(path);
-		reply.send("OK");
-	}catch(error){
-		console.log(error);
-		reply.code(500).send("Error while registering login");
-	}
 };
 
 exports.registerPasswordReset = async (req, reply) => {
