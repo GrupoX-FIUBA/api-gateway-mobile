@@ -10,6 +10,7 @@ const PAYMENTS_PREFIX = "payment";
 const EXTRACTIONS_PREFIX = "extraction";
 const DONATIONS_PREFIX = "donation";
 const SUBSCRIPTIONS_PREFIX = "subscriptions";
+const METRICS_PREFIX = "metrics";
 
 const SENT_PREFIX = "sent/";
 const RECEIVED_PREFIX = "received/";
@@ -185,6 +186,38 @@ exports.paySubscription = async (req, reply) => {
 		subscription: req.body.subscription,
 		user_id: req.headers.authorization.uid,
 	})
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.getDepositsMetrics = async (req, reply) => {
+	const path = PAYMENTS_SERVICE_URL + METRICS_PREFIX + "/deposits";
+
+	if(req.headers.authorization.admin !== true){
+		return reply.code(403).send({ detail: "Metrics require admin access privileges" });
+	}
+	
+	axios_payments.get(path)
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.getPaymentsMetrics = async (req, reply) => {
+	const path = PAYMENTS_SERVICE_URL + METRICS_PREFIX + "/payments";
+
+	if(req.headers.authorization.admin !== true){
+		return reply.code(403).send({ detail: "Metrics require admin access privileges" });
+	}
+
+	axios_payments.get(path)
 		.then(response => {
 			reply.send(response.data);
 		})

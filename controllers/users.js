@@ -114,7 +114,7 @@ exports.registerLogin = async (req, reply) => {
 		reply.send("OK");
 	}catch(error){
 		console.log(error);
-		reply.code(500).send(`Error while registering login`);
+		reply.code(500).send("Error while registering login");
 	}
 };
 
@@ -125,7 +125,7 @@ exports.registerPasswordReset = async (req, reply) => {
 		reply.send("OK");
 	}catch(error){
 		console.log(error);
-		reply.code(500).send(`Error while registering password reset`);
+		reply.code(500).send("Error while registering password reset");
 	}
 };
 

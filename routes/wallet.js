@@ -136,6 +136,22 @@ const routes = [
 				}
 			}
 		}
+	}, {
+		method: "GET",
+		url: "/metrics/deposits",
+		handler: controller.getDepositsMetrics,
+		schema: {
+			description: "Get deposits metrics",
+			tags: ["Metrics"],
+		}
+	}, {
+		method: "GET",
+		url: "/metrics/payments",
+		handler: controller.getPaymentsMetrics,
+		schema: {
+			description: "Get payments metrics",
+			tags: ["Metrics"],
+		}
 	}
 ];
 
