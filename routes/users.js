@@ -230,6 +230,54 @@ const routes = [
 			description: "Get if a user is an admin",
 			tags: ["Users"]
 		}
+	}, {
+		method: "POST",
+		url: "/newLogin",
+		handler: controller.registerLogin,
+		schema: {
+			description: "Register a new login",
+			tags: ["Users"]
+		}
+	}, {
+		method: "POST",
+		url: "/newPasswordReset",
+		handler: controller.registerPasswordReset,
+		schema: {
+			description: "Register a new password reset",
+			tags: ["Users"]
+		}
+	}, {
+		method: "GET",
+		url: "/metrics/logins",
+		handler: controller.metricLogins,
+		schema: {
+			description: "Get logins metric",
+			tags: ["Users"]
+		}
+	}, {
+		method: "GET",
+		url: "/metrics/passwordResets",
+		handler: controller.metricPasswordReset,
+		schema: {
+			description: "Get password resets metric",
+			tags: ["Users"]
+		}
+	}, {
+		method: "GET",
+		url: "/metrics/signUps",
+		handler: controller.metricSignUp,
+		schema: {
+			description: "Get sign ups metric",
+			tags: ["Users"]
+		}
+	}, {
+		method: "GET",
+		url: "/metrics/blockeds",
+		handler: controller.metricBlocked,
+		schema: {
+			description: "Get blockeds metric",
+			tags: ["Users"]
+		}
 	}
 ];
 

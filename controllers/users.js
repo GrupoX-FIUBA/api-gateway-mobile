@@ -15,6 +15,12 @@ const ADD_GENRE_PREFIX = "add_genre";
 const DEL_GENRE_PREFIX = "del_genre/";
 const SUBSCRIPTION_SUFIX = "/subscription_status/";
 const REGISTER_PREFIX = "register/";
+const NEW_LOGIN_PREFIX = "newLogin/";
+const NEW_PASSWORD_RESET_PREFIX = "newPasswordReseted/";
+const METRIC_LOGINS_PREFIX = "Logins/";
+const METRIC_PASSWORD_RESET_PREFIX = "passwordsResets/";
+const METRIC_SIGNUP_PREFIX = "SingUpStats/";
+const METRIC_BLOCKED_PREFIX = "blockedStats/";
 const ENABLE_PREFIX = "disabled_status/";
 const REGISTERED_USERS_PREFIX = "registered_users/";
 
@@ -100,6 +106,29 @@ exports.registerUser = async (req, reply) => {
 		});
 };
 
+exports.registerLogin = async (req, reply) => {
+	const userId = req.headers.authorization.uid;
+	const path = USERS_SERVICE_URL + NEW_LOGIN_PREFIX + `?uid=${userId}`;
+	try{
+		await axios_users.post(path);
+		reply.send("OK");
+	}catch(error){
+		console.log(error);
+		reply.code(500).send(`Error while registering login`);
+	}
+};
+
+exports.registerPasswordReset = async (req, reply) => {
+	const path = USERS_SERVICE_URL + NEW_PASSWORD_RESET_PREFIX;
+	try{
+		await axios_users.post(path);
+		reply.send("OK");
+	}catch(error){
+		console.log(error);
+		reply.code(500).send(`Error while registering password reset`);
+	}
+};
+
 exports.newUser = async (req, reply) => {
 	const path = USERS_SERVICE_URL + USERS_PREFIX + req.params.user_id;
 	try{
@@ -111,6 +140,70 @@ exports.newUser = async (req, reply) => {
 		console.log(error);
 		reply.send(error);
 	}
+};
+
+exports.metricLogins = async (req, reply) => {
+	const path = USERS_SERVICE_URL + METRIC_LOGINS_PREFIX;
+
+	if(req.headers.authorization.admin !== true){
+		return reply.code(403).send({ detail: "You are not allowed to get metrics" });
+	}
+
+	axios_users.get(path)
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.metricPasswordReset = async (req, reply) => {
+	const path = USERS_SERVICE_URL + METRIC_PASSWORD_RESET_PREFIX;
+
+	if(req.headers.authorization.admin !== true){
+		return reply.code(403).send({ detail: "You are not allowed to get metrics" });
+	}
+
+	axios_users.get(path)
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.metricSignUp = async (req, reply) => {
+	const path = USERS_SERVICE_URL + METRIC_SIGNUP_PREFIX;
+
+	if(req.headers.authorization.admin !== true){
+		return reply.code(403).send({ detail: "You are not allowed to get metrics" });
+	}
+
+	axios_users.get(path)
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
+};
+
+exports.metricBlocked = async (req, reply) => {
+	const path = USERS_SERVICE_URL + METRIC_BLOCKED_PREFIX;
+
+	if(req.headers.authorization.admin !== true){
+		return reply.code(403).send({ detail: "You are not allowed to get metrics" });
+	}
+
+	axios_users.get(path)
+		.then(response => {
+			reply.send(response.data);
+		})
+		.catch(error => {
+			reply.send(error);
+		});
 };
 
 exports.deleteUserById = async (req, reply) => {
