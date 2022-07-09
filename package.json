@@ -4,8 +4,7 @@
   "description": "!!!DESCRIPTION!!!",
   "main": "app.js",
   "scripts": {
-    "test": "tap --no-check-coverage",
-    "posttest": "tap --no-check-coverage --coverage-report=lcov && codecov"
+    "test": "jest --coverage --coverage-report=lcov && codecov"
   },
   "author": "GrupoX",
   "license": "ISC",
@@ -27,6 +26,6 @@
     "codecov": "^3.8.3",
     "eslint": "^8.12.0",
     "nodemon": "^2.0.15",
-    "tap": "^16.0.1"
+    "jest": "^28.1.2"
   }
 }
