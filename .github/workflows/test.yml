@@ -37,9 +37,8 @@ jobs:
           npx eslint . --ext .js,.jsx,.ts,.tsx
       - name: Test
         run: |
-          npm i tap
+          npm i jest
           npm run test
-          npm run posttest
       - name: Codecov
         uses: codecov/codecov-action@v3
         with:
