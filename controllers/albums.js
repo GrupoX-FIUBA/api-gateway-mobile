@@ -17,7 +17,7 @@ axios_albums.interceptors.request.use(function (config) {
 exports.getAlbums = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX;
 	try{
-		let subscription = (tiers.hasOwnProperty(req.headers.authorization.subscription)) ? tiers[req.headers.authorization.subscription] : 1;
+		let subscription = (req.headers.authorization.subscription in tiers) ? tiers[req.headers.authorization.subscription] : 1;
 		const response = (await axios_albums.get(path, {
 			params: {
 				skip: req.query.skip,

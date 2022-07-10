@@ -5,10 +5,7 @@ const Fire = require("../fire/fire.js").Fire;
 
 const MUSIC_SERVICE_URL_HEROKU = process.env.MUSIC_SERVICE_URL;
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
-const USERS_SERVICE_URL_HEROKU = process.env.USERS_SERVICE_URL;
-const USERS_SERVICE_URL = USERS_SERVICE_URL_HEROKU;
 
-const USERS_PREFIX = "users/";
 const SONGS_PREFIX = "songs/";
 const GENRES_PREFIX = "genres/";
 
@@ -21,14 +18,14 @@ const tiers = {
 	"Regular": 1,
 	"Silver": 2,
 	"Gold": 3,
-}
+};
 
 exports.tiers = tiers;
 
 exports.getSongs = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX;
 	try{
-		let subscription = (tiers.hasOwnProperty(req.headers.authorization.subscription)) ? tiers[req.headers.authorization.subscription] : 1;
+		let subscription = (req.headers.authorization.subscription in tiers) ? tiers[req.headers.authorization.subscription] : 1;
 		const response = (await axios_songs.get(path, {
 			params: {
 				skip: req.query.skip,
@@ -39,7 +36,7 @@ exports.getSongs = async (req, reply) => {
 		})).data;
 		const songs = (req.query.blockeds !== "true" 
 		|| req.headers.authorization.admin !== true) 
-		? response.filter(song => !song.blocked) : response;
+			? response.filter(song => !song.blocked) : response;
 		
 		for (let i = 0; i < songs.length; i++) {
 			songs[i].author = await getUserDataById(songs[i].artist_id);
