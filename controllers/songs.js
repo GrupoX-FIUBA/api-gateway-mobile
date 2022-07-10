@@ -1,3 +1,5 @@
+const { getUserDataById } = require("./users.js");
+
 const axios_songs = require("axios").create();
 const Fire = require("../fire/fire.js").Fire;
 
@@ -17,7 +19,6 @@ axios_songs.interceptors.request.use(function (config) {
 
 exports.getSongs = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX;
-	const user_path = USERS_SERVICE_URL + USERS_PREFIX; 
 	try{
 		const response = (await axios_songs.get(path, {
 			params: {
@@ -32,14 +33,11 @@ exports.getSongs = async (req, reply) => {
 			}
 		})).data;
 		const songs = (req.query.blockeds !== "true") ? response.filter(song => !song.blocked) : response;
-		for (var i = 0; i < songs.length; i++) {
-			var author = axios_songs.get(user_path + songs[i].artist_id);
-			songs[i].author = author;
+		
+		for (let i = 0; i < songs.length; i++) {
+			songs[i].author = await getUserDataById(songs[i].artist_id)
 		}
 
-		for (var j = 0; j < songs.length; j++) {
-			songs[j].author = (await songs[j].author).data;
-		}
 		reply.send(songs);
 	} catch(error) {
 		console.log(error);
