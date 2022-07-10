@@ -284,7 +284,22 @@ const routes = [
 			description: "Get blockeds metric",
 			tags: ["Users"]
 		}
+	}, {
+		method: "POST",
+		url: "/notification/:user_id",
+		handler: controller.sendNotification,
+		schema: {
+			description: "Send message notification",
+			tags: ["Users"],
+			params: {
+				type: "object",
+				properties: {
+					user_id: { type: "string" },
+				}
+			},
+		}
 	}
+
 ];
 
 module.exports = routes;
