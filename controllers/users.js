@@ -75,11 +75,17 @@ exports.getImAdmin = async (req, reply) => {
 	reply.send("Yes");
 };
 
+const getUserDataById = async (userId) => {
+	const path = USERS_SERVICE_URL + USERS_PREFIX + userId;
+	return (await axios_users.get(path)).data;
+}
+
+exports.getUserDataById = getUserDataById;
+
 exports.getUserById = async (req, reply) => {
 	try{
 		const fire = new Fire();
-		const path = USERS_SERVICE_URL + USERS_PREFIX + req.params.user_id;
-		const response = (await axios_users.get(path)).data;
+		const response = await getUserDataById(req.params.user_id);
 		if(!(await fire.objectExists("profiles/user_" + req.params.user_id))){
 			response.image = null;
 		}else{
