@@ -1,7 +1,7 @@
 const axios_payments = require("axios").create();
 
-const PAYMENTS_SERVICE_URL = "https://payments
--service-manuelbilbao.cloud.okteto.net/";
+const PAYMENTS_SERVICE_URL_HEROKU = process.env.PAYMENTS_SERVICE_URL;
+const PAYMENTS_SERVICE_URL = PAYMENTS_SERVICE_URL_HEROKU;
 
 const WALLETS_PREFIX = "wallet";
 const BALANCE_PREFIX = "balance";

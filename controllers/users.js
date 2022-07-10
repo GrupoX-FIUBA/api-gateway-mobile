@@ -78,7 +78,7 @@ exports.getImAdmin = async (req, reply) => {
 const getUserDataById = async (userId) => {
 	const path = USERS_SERVICE_URL + USERS_PREFIX + userId;
 	return (await axios_users.get(path)).data;
-}
+};
 
 exports.getUserDataById = getUserDataById;
 

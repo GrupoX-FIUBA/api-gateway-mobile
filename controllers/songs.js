@@ -35,7 +35,7 @@ exports.getSongs = async (req, reply) => {
 		const songs = (req.query.blockeds !== "true") ? response.filter(song => !song.blocked) : response;
 		
 		for (let i = 0; i < songs.length; i++) {
-			songs[i].author = await getUserDataById(songs[i].artist_id)
+			songs[i].author = await getUserDataById(songs[i].artist_id);
 		}
 
 		reply.send(songs);
