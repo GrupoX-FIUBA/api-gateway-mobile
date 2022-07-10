@@ -189,8 +189,8 @@ exports.paySubscription = async (req, reply) => {
 		.then(response => {
 			reply.send(response.data);
 		})
-		.catch(error => {
-			reply.send(error);
+		.catch(() => {
+			reply.code(400).send({ detail: "Insufficient funds" });
 		});
 };
 
