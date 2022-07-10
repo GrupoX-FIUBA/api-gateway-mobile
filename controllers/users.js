@@ -372,17 +372,17 @@ exports.sendNotification = async (req, reply) => {
 		const userName = req.headers.authorization.name;
 		const path = USERS_SERVICE_URL + NOTIFICATION_TOKEN_PREFIX + `${req.params.user_id}`;
 		const token = (await axios_users.get(path)).data;
-		await axios.post('https://exp.host/--/api/v2/push/send', {
+		await axios.post("https://exp.host/--/api/v2/push/send", {
 			to: `${token}`,
-			sound: 'default',
-			title: 'Spotifiuby',
-			body: 'You have new messages!',
+			sound: "default",
+			title: "Spotifiuby",
+			body: "You have new messages!",
 			data: { "origin": {"uid":`${userId}`, "name": `${userName}` } },
 		}, {headers: {
-			'Accept': 'application/json',
-			'Accept-encoding': 'gzip, deflate',
-			'Content-Type': 'application/json',
-		}})
+			"Accept": "application/json",
+			"Accept-encoding": "gzip, deflate",
+			"Content-Type": "application/json",
+		}});
 		reply.send("Ok");
 	} catch(error){
 		console.log(error);
