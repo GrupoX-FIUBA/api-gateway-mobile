@@ -152,6 +152,21 @@ const routes = [
 			description: "Get payments metrics",
 			tags: ["Metrics"],
 		}
+	},{
+		method: "POST",
+		url: "/payment",
+		handler: controller.makeAPayment,
+		schema: {
+			description: "Make a payment",
+			tags: ["Payments"],
+			body: {
+				type: "object",
+				properties: {
+					amountInEthers: { type: "string" },
+					receiverId: {type: "string"}
+				}
+			}
+		}
 	}
 ];
 

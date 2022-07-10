@@ -1,7 +1,7 @@
 const axios_payments = require("axios").create();
 
-const PAYMENTS_SERVICE_URL_HEROKU = process.env.PAYMENTS_SERVICE_URL;
-const PAYMENTS_SERVICE_URL = PAYMENTS_SERVICE_URL_HEROKU;
+const PAYMENTS_SERVICE_URL = "https://payments
+-service-manuelbilbao.cloud.okteto.net/";
 
 const WALLETS_PREFIX = "wallet";
 const BALANCE_PREFIX = "balance";
@@ -224,4 +224,20 @@ exports.getPaymentsMetrics = async (req, reply) => {
 		.catch(error => {
 			reply.send(error);
 		});
+};
+
+exports.makeAPayment = async (req, reply) => {
+	const path = PAYMENTS_SERVICE_URL + PAYMENTS_PREFIX;
+
+	if(req.headers.authorization.admin !== true){
+		return reply.code(403).send({ detail: "Make a payment require admin access privileges" });
+	}
+
+	const response = (await axios_payments.post(path, {
+		receiverId: req.body.receiverId,
+		amountInEthers: req.body.amountInEthers,
+
+	})).data;
+
+	reply.send(response);
 };
