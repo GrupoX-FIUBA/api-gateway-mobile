@@ -52,13 +52,21 @@ exports.getUsers = async (req, reply) => {
 		});
 		const fire = new Fire();
 		for(let i=0; i<response.length; i++){
-			if(!(await fire.objectExists("profiles/user_" + response[i].uid))){
+			response[i].image = fire.objectExists("profiles/user_" + response[i].uid);
+		}
+
+		for(let i=0; i<response.length; i++){
+			if(!(await response[i].image)) {
 				response[i].image = null;
-			}else{
-				const resourceURI = await fire.getResourceURI("profiles/user_" + response[i].uid, "read");
-				response[i].image = resourceURI;
+			} else {
+				response[i].image = fire.getResourceURI("profiles/user_" + response[i].uid, "read");
 			}
 		}
+
+		for(let i=0; i<response.length; i++){
+			response[i].image = await response[i].image;
+		}
+
 		reply.send(response);
 	}
 	catch(error){
