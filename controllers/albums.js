@@ -1,3 +1,5 @@
+const { tiers } = require("./songs.js");
+
 const axios_albums = require("axios").create();
 const Fire = require("../fire/fire.js").Fire;
 
@@ -15,16 +17,14 @@ axios_albums.interceptors.request.use(function (config) {
 exports.getAlbums = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + ALBUMS_PREFIX;
 	try{
+		let subscription = (tiers.hasOwnProperty(req.headers.authorization.subscription)) ? tiers[req.headers.authorization.subscription] : 1;
 		const response = (await axios_albums.get(path, {
 			params: {
 				skip: req.query.skip,
 				limit: req.query.limit,
 				artist_id: req.query.artist_id,
 				subscription: req.query.subscription,
-				subscription__lt: req.query.subscription__lt,
-				subscription__lte: req.query.subscription__lte,
-				subscription__gt: req.query.subscription__gt,
-				subscription__gte: req.query.subscription__gte
+				subscription__lte: (req.headers.authorization.admin) ? undefined : subscription
 			}
 		})).data;
 		const fire = new Fire();

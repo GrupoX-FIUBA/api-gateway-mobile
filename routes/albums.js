@@ -15,12 +15,7 @@ const routes = [
 				properties: {
 					skip: { type: "integer", default: 0 },
 					limit: { type: "integer", default: 100 },
-					artist_id: { type: "string" },
-					subscription: { type: "integer" },
-					subscription__lt: { type: "integer" },
-					subscription__lte: { type: "integer" },
-					subscription__gt: { type: "integer" },
-					subscription__gte: { type: "integer" },
+					artist_id: { type: "string" }
 				}
 			},
 		}

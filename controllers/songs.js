@@ -17,22 +17,29 @@ axios_songs.interceptors.request.use(function (config) {
 	return config;
 });
 
+const tiers = {
+	"Regular": 1,
+	"Silver": 2,
+	"Gold": 3,
+}
+
+exports.tiers = tiers;
+
 exports.getSongs = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + SONGS_PREFIX;
 	try{
+		let subscription = (tiers.hasOwnProperty(req.headers.authorization.subscription)) ? tiers[req.headers.authorization.subscription] : 1;
 		const response = (await axios_songs.get(path, {
 			params: {
 				skip: req.query.skip,
 				limit: req.query.limit,
 				artist_id: req.query.artist_id,
-				subscription: req.query.subscription,
-				subscription__lt: req.query.subscription__lt,
-				subscription__lte: req.query.subscription__lte,
-				subscription__gt: req.query.subscription__gt,
-				subscription__gte: req.query.subscription__gte
+				subscription__lte: (req.headers.authorization.admin) ? undefined : subscription
 			}
 		})).data;
-		const songs = (req.query.blockeds !== "true") ? response.filter(song => !song.blocked) : response;
+		const songs = (req.query.blockeds !== "true" 
+		|| req.headers.authorization.admin !== true) 
+		? response.filter(song => !song.blocked) : response;
 		
 		for (let i = 0; i < songs.length; i++) {
 			songs[i].author = await getUserDataById(songs[i].artist_id);
