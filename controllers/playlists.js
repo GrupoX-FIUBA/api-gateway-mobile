@@ -1,4 +1,5 @@
 const axios_playlists = require("axios").create();
+const axios_users_playlists = require("axios").create();
 
 const MUSIC_SERVICE_URL_HEROKU = process.env.MUSIC_SERVICE_URL;
 const MUSIC_SERVICE_URL = MUSIC_SERVICE_URL_HEROKU;
@@ -14,6 +15,11 @@ axios_playlists.interceptors.request.use(function (config) {
 	return config;
 });
 
+axios_users_playlists.interceptors.request.use(function (config) {
+	config.headers["X-API-Key"] = process.env.USERS_SERVICE_API_KEY;
+	return config;
+});
+
 exports.getPlaylists = async (req, reply) => {
 	const path = MUSIC_SERVICE_URL + PLAYLISTS_PREFIX;
 	const user_path = USERS_SERVICE_URL + USERS_PREFIX; 
@@ -26,7 +32,7 @@ exports.getPlaylists = async (req, reply) => {
 		})).data;
 		
 		for (var i = 0; i < response.length; i++) {
-			var author = axios_playlists.get(user_path + response[i].owner_id);
+			var author = axios_users_playlists.get(user_path + response[i].owner_id);
 			response[i].author = author;
 		}
 
