@@ -22,6 +22,7 @@ jest.mock("axios", () => {
 	return {
 		create: jest.fn(() => ({
 			get: jest.fn(() => user),
+			post: jest.fn(() => Promise.resolve(user)),
 			interceptors: {
 				request: { use: jest.fn(), eject: jest.fn() },
 				response: { use: jest.fn(), eject: jest.fn() }
@@ -49,6 +50,9 @@ describe("when users API calls are successful", () => {
 		const result = await app.inject({
 			method: "GET",
 			url: "/users/:user_id",
+			headers: {
+				authorization: "Bearer token",
+			},
 			params: {
 				user_id: "RAPzpynEsnYkGi7K3y9lDRy0b0b2",
 			},
