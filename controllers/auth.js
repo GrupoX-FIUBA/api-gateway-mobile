@@ -13,7 +13,8 @@ exports.userAuthentication = async (request, reply) => {
 	const path = USERS_SERVICE_URL + DECODE_TOKEN_PREFIX;
 	if (!request.url.startsWith("/docs") && !request.url.startsWith("/new_user") 
 	&& !request.url.startsWith("/newPasswordReset")
-	&& !request.url.startsWith("/user_is_registered") && process.env.NODE_ENV == "prod") {
+	&& !request.url.startsWith("/user_is_registered") 
+	&& (process.env.NODE_ENV == "prod") || (process.env.NODE_ENV == "test")) {
 		try{
 			const bearerToken = request.headers["authorization"];
 			const token = bearerToken.split(" ")[1];

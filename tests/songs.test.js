@@ -60,7 +60,15 @@ describe("when music API calls are successful", () => {
 	it("returns comments", async () => {
 		const app = await build();
 
-		expect(200).toBe(200);
+		const result = await app.inject({
+			method: "GET",
+			url: "/genres",
+			headers: {
+				authorization: "Bearer token",
+			},
+		});
+
+		expect(result.statusCode).toBe(200);
 	});
 
 });
